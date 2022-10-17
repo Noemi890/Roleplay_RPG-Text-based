@@ -120,6 +120,7 @@ user: {
 }
 ```
 `As a User, so I can set my own rules, I want to be able to create my own game`
+
 *Example request:*
 ```
 game.create({
@@ -128,6 +129,7 @@ game.create({
   }
 })
 ```
+
 *Example response:*
 ```
 {
@@ -136,13 +138,17 @@ game.create({
 }
 ```
 ---
+```
 {
   status: 400,
   error: {
     message: 'Game with this title already exist'
   }
 }
+```
+
 `As a User, so I can have everything organized, I want to be able to see all the roles in the game`
+
 *Example request:*
 ```
 role.findMany({
@@ -167,6 +173,7 @@ role.findMany({
 }
 ```
 `As a User, so I can have everything organized, I want to be able to see the ended roles`
+
 *Example request:*
 ```
 role.findMany({
