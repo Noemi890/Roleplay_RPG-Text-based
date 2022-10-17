@@ -12,7 +12,7 @@ user.create({
 *Example Response:*
 ```
 {
-  status: 200,
+  status: 201,
   message: 'User has been created'
 }
 ```
@@ -113,7 +113,7 @@ user: {
 ---
 ```
 {
-  status: 400,
+  status: 409,
   error: {
     message: 'Profile with that name already exist'
   }
