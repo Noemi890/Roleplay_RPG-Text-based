@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { getUserByEmail } from '../domain/user'
+import { getUserByEmail } from './user'
 const expiry = env('JWT_EXPIRY')
 const secret = env('JWT_SECRET')
 

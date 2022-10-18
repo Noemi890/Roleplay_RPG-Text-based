@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { getUserById } from '../domain/user'
+import { getUserById } from '../controllers/user'
 const secret = env('JWT_SECRET')
 
 export const validateAuth = async (req, res, next) => {
