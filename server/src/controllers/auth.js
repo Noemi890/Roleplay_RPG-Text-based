@@ -1,8 +1,8 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { getUserByEmail } from './user'
-const expiry = env('JWT_EXPIRY')
-const secret = env('JWT_SECRET')
+import { getUserByEmail } from './user.js'
+const expiry = process.env.JWT_EXPIRY
+const secret = process.env.JWT_SECRET
 
 export const login = async (req, res) => {
   const { email, password } = req.body
@@ -32,9 +32,9 @@ export const login = async (req, res) => {
 
     const token = jwt.sign({ id }, secret, { expiresIn: expiry })
 
-    return res.staus(200).json({
+    return res.status(200).json({
       token,
-      ...user.toJson()
+      user
     })
   }
   catch (e) {
