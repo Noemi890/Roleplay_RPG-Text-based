@@ -1,6 +1,6 @@
 import axios from 'axios'
-const host = process.env.REACT_APP
-const tokenKey = process.env.TOKEN
+const host = process.env.REACT_APP_HOST
+const tokenKey = process.env.REACT_APP_TOKEN
 
 const client = {
   get: path => {
@@ -18,7 +18,7 @@ const client = {
     let headers = {};
 
     if (withToken) {
-      headers['Authorization'] = `Bearer ${token}`;
+      headers['Authorization'] = `Bearer ${tokenKey}`;
     }
     return axios.post(url, data, { headers });
   },

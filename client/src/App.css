@@ -6,6 +6,7 @@
 }
 
 .app-container {
-  margin: 5rem;
-  background-color: grey;
+  display: inline-block;
+  background-color: lightgray;
+  width: 100vw;
 }

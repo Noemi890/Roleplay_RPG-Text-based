@@ -1,5 +1,7 @@
+import React from "react"
+
 const LoginPage = () => {
-  return <></>
+  return <>HELLO!</>
 }
 
 export default LoginPage
