@@ -13,7 +13,7 @@ export const validateAuth = async (req, res, next) => {
 
   const [type, token] = header.split(' ')
 
-  const typeValid = type === 'Bearer' ? true : false
+  const typeValid = type.toUppercase() === 'BEARER' ? true : false
   if (!typeValid) {
     return res.status(400).json({
       message: `expected type Bearer but got ${type} instead` 
