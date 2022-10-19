@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import RegisterPage from './components/user/Register';
 import LoginPage from './components/user/Login';
+import Profile from './components/profile/Profile';
 import './app.css'
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
         <Routes>
           <Route path={'/'} element={<RegisterPage />}/>
           <Route path={'/login'} element={<LoginPage />}/>
+          <Route path={'/profile/create'} element={<Profile />}/>
         </Routes>
       </div>
   )

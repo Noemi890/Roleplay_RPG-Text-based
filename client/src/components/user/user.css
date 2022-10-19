@@ -9,20 +9,13 @@
   font-size: 3rem;
 }
 
-.auth-form {
-  /* text-align: center; */
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
-}
-
 .MuiFormControl-root.MuiTextField-root.form_register.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
   /* display: block; */
   margin-bottom: 2rem;
-  text-decoration: none;
+  /* text-decoration: none; */
 }
 
-.MuiFormControl-root.MuiTextField-root.form_register.css-1u3bzj6-MuiFormControl-root-MuiTextField-root.Mui-focusVisible {
+.MuiFormControl-root.MuiTextField-root.form_register.css-1u3bzj6-MuiFormControl-root-MuiTextField-root:focus-visible {
   background-color: none;
 }
 
@@ -35,10 +28,11 @@
   width: 50vw;
   height: 35vw;
 
-  background-color: #F9D9CC;
+  background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 5px 5px 5px 5px #c8b6c741;
 }
+
 
 .login_href.MuiTypography-root {
   text-align: center;

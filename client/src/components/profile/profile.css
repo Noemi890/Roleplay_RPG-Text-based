@@ -1,0 +1,13 @@
+.profile_creation_title {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 3rem;
+}
+
+.profile_creation_input.MuiFormControl-root.MuiTextField-root {
+  margin-bottom: 2rem;
+  width: 215px;
+}

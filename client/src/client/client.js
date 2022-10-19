@@ -18,7 +18,7 @@ const client = {
     let headers = {};
 
     if (withToken) {
-      headers['Authorization'] = `Bearer ${tokenKey}`;
+      headers['Authorization'] = `Bearer ${token}`;
     }
     return axios.post(url, data, { headers });
   },
