@@ -1,13 +1,18 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import "./profile.css";
 import { userProfileCreation } from "../utils/constants";
-import { Card, TextField, Button } from "@mui/material";
+import { Card, TextField, Button, Alert } from "@mui/material";
+import client from "../../client/client";
 
 const Profile = () => {
   const [userCharacter, setUserCharacter] = useState(userProfileCreation);
+  const [data, setData] = useState('')
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
   const location = useLocation();
+  const navigate = useNavigate()
 
   useEffect(() => {
     console.log(location);
@@ -29,13 +34,33 @@ const Profile = () => {
   };
 
   const handleSubmit = () => {
-    console.log(userCharacter);
+    try {
+    client
+      .post('/', {...userCharacter}, false)
+      .then(res => {
+        console.log(res)
+        setData(res.data.message)
+        setSuccess(true)
+        setTimeout(() => {
+          setSuccess(false);
+          navigate('/login')
+        }, '3000');
+      })
+    }
+    catch (e) {
+      setData(e.data.message)
+      setError(true)
+      setTimeout(() => {
+        setError(false);
+      }, '3000');
+    }
   };
 
   return (
     <div className="auth-form">
       <h2 className="profile_creation_title">Create your new Character</h2>
       <Card className="profile_creation_card">
+        <form className="profile_creation_card" onSubmit={handleSubmit}>
         <TextField
           required
           variant="standard"
@@ -92,11 +117,20 @@ const Profile = () => {
         <Button
           className="profile_creation_btn"
           variant="contained"
-          onClick={handleSubmit}
+          type="submit"
         >
           {location.state ? "Register" : "Create Profile"}
         </Button>
+        </form>
       </Card>
+        {
+          success ? 
+          <Alert severity="success">{data}</Alert> : <></>
+        }
+        {
+          error ? 
+          <Alert severity="error">{data}</Alert> : <></>
+        }
     </div>
   );
 };

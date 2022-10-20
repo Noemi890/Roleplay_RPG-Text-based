@@ -9,10 +9,10 @@
   font-size: 3rem;
 }
 
-.MuiFormControl-root.MuiTextField-root.form_register.css-1u3bzj6-MuiFormControl-root-MuiTextField-root {
-  /* display: block; */
-  margin-bottom: 2rem;
-  /* text-decoration: none; */
+.MuiButtonBase-root.submit_btn {
+  width: fit-content;
+  margin-top: 2rem;
+  place-self: center;
 }
 
 .MuiFormControl-root.MuiTextField-root.form_register.css-1u3bzj6-MuiFormControl-root-MuiTextField-root:focus-visible {
@@ -37,4 +37,9 @@
 .login_href.MuiTypography-root {
   text-align: center;
   margin: 2rem;
+}
+
+.form_layout {
+  display: flex;
+  flex-direction: column;
 }

@@ -71,3 +71,24 @@ export const getUserByEmail = async (email) => {
   }
   return user
 }
+
+export const checkEmailExisting = async (req, res) => {
+  const { email, password } = req.body
+
+  const user = await prisma.user.findFirst({
+    where: {
+      email
+    }
+  })
+
+  if (user) {
+    return res.json({
+      user,
+      message: 'Email already in use'
+    })
+  }
+
+  return res.json({
+    message: 'Valid'
+  })
+}

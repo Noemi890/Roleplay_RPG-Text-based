@@ -16,3 +16,8 @@
 .profile_creation_btn.MuiButtonBase-root {
   margin-bottom: 1rem;
 }
+
+.profile_creation_card {
+  display: flex;
+  flex-direction: column;
+}

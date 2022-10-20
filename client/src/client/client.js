@@ -1,6 +1,6 @@
 import axios from 'axios'
-const host = process.env.REACT_APP_HOST
-const tokenKey = process.env.REACT_APP_TOKEN
+const host = 'http://localhost:4001'
+const tokenKey = 'token'
 
 const client = {
   get: path => {

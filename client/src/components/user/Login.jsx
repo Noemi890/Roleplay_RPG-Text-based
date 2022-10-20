@@ -25,13 +25,15 @@ const LoginPage = () => {
     <div className="auth-form">
       <h1 className="landing_title">Welcome to RolePlay</h1>
       <Card>
+      <form className="form_layout" onSubmit={handleSubmit}>
         <Form details={loginDetails} handleChange={handleLoginChange} />
-        <Button variant="contained" onClick={handleSubmit}>
+        <Button className="submit_btn" variant="contained" type="submit">
           Login
         </Button>
         <Typography className="login_href">
           Don't have an account? <Link href="/">Sign Up Here!</Link>
         </Typography>
+        </form>
       </Card>
     </div>
   );

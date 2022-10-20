@@ -48,5 +48,5 @@ export const login = async (req, res) => {
 const compareCredentials = async (pass, user) => {
   const validPass = await bcrypt.compare(pass, user.password)
 
-  return validPass ? true: false
+  return validPass ? true : false
 }
