@@ -29,12 +29,12 @@ const RegisterPage = () => {
           variant="contained"
           onClick={() => navigate('/profile/create', { state: {...registerDetails} })}
         >
-          Set up your first profile
+          Set up your first character
         </Button>
+        <Typography className="login_href">
+          Already an User? <Link href="/login">Login Here!</Link>
+        </Typography>
       </Card>
-      <Typography className="login_href">
-        Already an User? <Link href="/login">Login Here!</Link>
-      </Typography>
     </div>
   );
 };

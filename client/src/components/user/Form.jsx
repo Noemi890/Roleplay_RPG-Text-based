@@ -34,6 +34,7 @@ const Form = ({ details, handleChange }) => {
         className="form_register"
         variant="standard"
         label="password"
+        pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\d#$@!%&*?]{8,30}$/"
         type={show ? type.text : type.password}
         name="password"
         value={details.password}

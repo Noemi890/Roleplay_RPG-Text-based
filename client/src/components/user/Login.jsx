@@ -29,10 +29,10 @@ const LoginPage = () => {
         <Button variant="contained" onClick={handleSubmit}>
           Login
         </Button>
+        <Typography className="login_href">
+          Don't have an account? <Link href="/">Sign Up Here!</Link>
+        </Typography>
       </Card>
-      <Typography className="login_href">
-        Don't have an account? <Link href="/">Sign Up Here!</Link>
-      </Typography>
     </div>
   );
 };

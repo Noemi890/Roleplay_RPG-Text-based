@@ -7,9 +7,10 @@ import { Card, TextField, Button } from "@mui/material";
 
 const Profile = () => {
   const [userCharacter, setUserCharacter] = useState(userProfileCreation);
+  const location = useLocation();
 
   useEffect(() => {
-    console.log(location.state);
+    console.log(location);
     if (location.state) {
     setUserCharacter({
       ...location.state,
@@ -18,7 +19,6 @@ const Profile = () => {
     // eslint-disable-next-line
   }, []);
 
-  const location = useLocation();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
