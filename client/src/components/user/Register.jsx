@@ -24,17 +24,18 @@ const RegisterPage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    client
-      .post('/check', registerDetails)
-      .then(res => {
-        if(!res.data.user) {
-          navigate('/profile/create', { state: {...registerDetails} })
-        }
-        setAlert(true)
-        setTimeout(() => {
-          setAlert(false)
-        }, '3000')
-      })
+      client
+        .post('/check', registerDetails)
+        .then(res => {
+          console.log(res)
+          if(!res.data.user) {
+            navigate('/profile/create', { state: {...registerDetails} })
+          }
+          setAlert(true)
+          setTimeout(() => {
+            setAlert(false)
+          }, '3000')
+        })
   }
 
   return (
@@ -54,10 +55,10 @@ const RegisterPage = () => {
         <Typography className="login_href">
           Already an User? <Link href="/login">Login Here!</Link>
         </Typography>
+      </Card>
         {alert && 
           <Alert severity="error">Email already in use</Alert>
         }
-      </Card>
     </div>
   );
 };

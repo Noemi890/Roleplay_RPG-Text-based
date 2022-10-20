@@ -11,3 +11,8 @@ export const userProfileCreation = {
   race: '',
   biography: ''
 }
+
+export const initialErrorState = {
+  error: false,
+  message: ''
+}

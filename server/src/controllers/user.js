@@ -41,7 +41,6 @@ export const createUser = async (req, res) => {
     res.status(500).json({
       message: 'Cannot create User'
     })
-    throw e
   }
 
 }
@@ -63,6 +62,9 @@ export const getUserByEmail = async (email) => {
   const user = await prisma.user.findUnique({
     where: {
       email
+    },
+    include: {
+      profile: true
     }
   })
 
@@ -73,7 +75,7 @@ export const getUserByEmail = async (email) => {
 }
 
 export const checkEmailExisting = async (req, res) => {
-  const { email, password } = req.body
+  const { email } = req.body
 
   const user = await prisma.user.findFirst({
     where: {

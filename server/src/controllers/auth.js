@@ -9,15 +9,15 @@ export const login = async (req, res) => {
 
   if(!email || !password) {
     return res.status(400).json({
-      message: 'Invalid email and/or password provided'
+      error: 'Invalid email and/or password provided'
     })
   }
 
   try {
     const user = await getUserByEmail(email)
     if (!user) {
-      return res.status(404).json({
-        message: 'Invalid email and/or password provided'
+      return res.status(400).json({
+        error: 'Invalid email and/or password provided'
       })
     }
     
@@ -25,7 +25,7 @@ export const login = async (req, res) => {
 
     if (!validCredentials) {
       return res.status(400).json({
-        message: 'Invalid email and/or password provided'
+        error: 'Invalid email and/or password provided'
       })
     }
     const id = user.id
@@ -38,10 +38,9 @@ export const login = async (req, res) => {
     })
   }
   catch (e) {
-    res.staus(e.code).json({
-      message: e.message
+    return res.status(e.code).json({
+      error: e.message
     })
-    throw e
   }
 }
 

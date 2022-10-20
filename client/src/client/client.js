@@ -1,6 +1,6 @@
 import axios from 'axios'
-const host = 'http://localhost:4001'
-const tokenKey = 'token'
+export const host = 'http://localhost:4001'
+export const tokenKey = 'token'
 
 const client = {
   get: path => {

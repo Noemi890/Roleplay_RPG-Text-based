@@ -34,7 +34,7 @@ const Profile = () => {
   };
 
   const handleSubmit = () => {
-    try {
+
     client
       .post('/', {...userCharacter}, false)
       .then(res => {
@@ -46,14 +46,13 @@ const Profile = () => {
           navigate('/login')
         }, '3000');
       })
-    }
-    catch (e) {
+    .catch (e => {
       setData(e.data.message)
       setError(true)
       setTimeout(() => {
         setError(false);
       }, '3000');
-    }
+    })
   };
 
   return (
