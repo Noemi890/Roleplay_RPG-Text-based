@@ -7,7 +7,12 @@
   font-size: 3rem;
 }
 
-.profile_creation_input.MuiFormControl-root.MuiTextField-root {
+.profile_creation_input.MuiFormControl-root.MuiTextField-root,
+.MuiInputBase-root.age_select {
   margin-bottom: 2rem;
   width: 215px;
+}
+
+.profile_creation_btn.MuiButtonBase-root {
+  margin-bottom: 1rem;
 }

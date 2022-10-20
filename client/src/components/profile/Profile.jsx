@@ -3,87 +3,99 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./profile.css";
 import { userProfileCreation } from "../utils/constants";
-import {
-  Card,
-  TextField,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-} from "@mui/material";
+import { Card, TextField, Button } from "@mui/material";
 
 const Profile = () => {
-  const [userAndProfile, setUserAndProfile] = useState({});
-  const [radioType, setRadioType] = useState("text");
-
-  const imageType = {
-    file: "file",
-    text: "text",
-  };
-
-  const upload = radioType === imageType.file;
-
-  const location = useLocation();
+  const [userCharacter, setUserCharacter] = useState(userProfileCreation);
 
   useEffect(() => {
     console.log(location.state);
-    if (!location.state) {
-      setUserAndProfile(userProfileCreation);
-    }
-    setUserAndProfile({
+    if (location.state) {
+    setUserCharacter({
       ...location.state,
       ...userProfileCreation,
-    });
+    })};
     // eslint-disable-next-line
   }, []);
 
-  const handleRadioChange = (e) => {
-    const value = e.target.value;
+  const location = useLocation();
 
-    setRadioType(value);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserCharacter({
+      ...userCharacter,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = () => {
+    console.log(userCharacter);
   };
 
   return (
     <div className="auth-form">
-      <h2 className="profile_creation_title">Create your new Profile</h2>
-      <Card>
+      <h2 className="profile_creation_title">Create your new Character</h2>
+      <Card className="profile_creation_card">
         <TextField
           required
           variant="standard"
           className="profile_creation_input"
+          name="name"
           label="name"
+          value={userCharacter.name}
+          onChange={handleChange}
         />
         <TextField
           required
           variant="standard"
           className="profile_creation_input"
+          name="surname"
           label="surname"
+          value={userCharacter.surname}
+          onChange={handleChange}
         />
-        <RadioGroup row value={radioType} onChange={handleRadioChange}>
-          <FormControlLabel value="text" control={<Radio />} label="URL" />
-          <FormControlLabel value="file" control={<Radio />} label="File" />
-        </RadioGroup>
         <TextField
           variant="standard"
           className="profile_creation_input"
-          type={upload ? imageType.file : imageType.text}
-          label="image"
+          type="text"
+          name="image"
+          label="image URL"
+          value={userCharacter.image}
+          onChange={handleChange}
         />
-        <TextField 
-          variant="standard" 
+        <TextField
+          variant="standard"
           className="profile_creation_input"
+          name="race"
           label="race"
+          value={userCharacter.race}
+          onChange={handleChange}
         />
         <TextField 
-          variant="standard" 
+          type="number"
+          variant="standard"
           className="profile_creation_input"
           label="age"
+          name="age"
+          value={userCharacter.age}
+          onChange={handleChange}
         />
         <TextField
           multiline
           variant="standard"
           className="profile_creation_input"
           label="biography"
+          name="biography"
+          value={userCharacter.biography}
+          onChange={handleChange}
         />
+        <Button
+          className="profile_creation_btn"
+          variant="contained"
+          onClick={handleSubmit}
+        >
+          {location.state ? "Register" : "Create Profile"}
+        </Button>
       </Card>
     </div>
   );
