@@ -24,5 +24,6 @@
 }
 
 .MuiPaper-root.MuiPaper-elevation.MuiPaper-rounded.MuiPaper-elevation24.MuiDialog-paper.MuiDialog-paperScrollPaper.MuiDialog-paperWidthSm.css-1t1j96h-MuiPaper-root-MuiDialog-paper {
-  padding: 3rem 1rem;
+  padding: 2rem 1rem;
+  width: 50vw;
 }

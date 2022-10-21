@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import RegisterPage from './components/user/Register';
 import LoginPage from './components/user/Login';
-import Profile from './components/profile/Profile';
+import Profile from './components/profile/ProfileForm';
 import './app.css'
 import Main from './components/main/Main';
 import SelectProfile from './components/profile/SelectProfile';
