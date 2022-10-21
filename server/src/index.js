@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import authRouter from './routes/auth.js'
 import userRouter from './routes/user.js'
+import profileRouter from './routes/profile.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use('/', authRouter)
 app.use('/', userRouter)
+app.use('/profile', profileRouter)
 
 
 const port = 4001

@@ -29,9 +29,9 @@ const LoginPage = () => {
           console.log(res)
           localStorage.setItem(tokenKey, res.data.token);
           const user = res.data.user;
-          navigate("/main", {
+          navigate("/profile/select", {
             state: {
-              user,
+              id: user.id
             },
           });
         })

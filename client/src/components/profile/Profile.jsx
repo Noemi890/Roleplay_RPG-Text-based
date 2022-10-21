@@ -1,6 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./profile.css";
 import { userProfileCreation } from "../utils/constants";
 import { Card, TextField, Button, Alert } from "@mui/material";
@@ -13,17 +13,7 @@ const Profile = () => {
   const [error, setError] = useState(false)
   const location = useLocation();
   const navigate = useNavigate()
-
-  useEffect(() => {
-    console.log(location);
-    if (location.state) {
-    setUserCharacter({
-      ...location.state,
-      ...userProfileCreation,
-    })};
-    // eslint-disable-next-line
-  }, []);
-
+  const userId = location.state
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,10 +23,11 @@ const Profile = () => {
     });
   };
 
-  const handleSubmit = () => {
-
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    console.log(userId, userCharacter)
     client
-      .post('/', {...userCharacter}, false)
+      .post('/profile/create', { user: userId, profile: userCharacter }, false)
       .then(res => {
         console.log(res)
         setData(res.data.message)

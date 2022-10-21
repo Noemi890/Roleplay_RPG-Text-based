@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 const prisma = new PrismaClient()
 
 export const createUser = async (req, res) => {
-  const { email, password, name, surname, image, age, race, biography } = req.body
+  const { email, password } = req.body
 
   if (!email || !password) {
     return res.status(400).json({
@@ -14,32 +14,35 @@ export const createUser = async (req, res) => {
 
   const passHash = await bcrypt.hash(password, 8)
 
+  const foundUser = await prisma.user.findFirst({
+    where: {
+      email
+    }
+  })
+
+  if (foundUser) {
+    return res.status(400).json({
+      error: "Email already in use"
+    })
+  }
+
   try {
+    
     const createdUser = await prisma.user.create({
       data: {
         email,
-        password: passHash,
-        profile: {
-          create: {
-            name, 
-            surname,
-            image, 
-            age, 
-            race, 
-            biography
-          }
-        }
+        password: passHash
       }
     })
 
     return res.status(201).json({ 
-      message: 'Success. You can now login',
-      createdUser 
+      createdUser,
+      message: 'Success. You can now login'
     })
   }
   catch (e) {
     res.status(500).json({
-      message: 'Cannot create User'
+      error: 'Cannot create User'
     })
   }
 
@@ -72,25 +75,4 @@ export const getUserByEmail = async (email) => {
     return false
   }
   return user
-}
-
-export const checkEmailExisting = async (req, res) => {
-  const { email } = req.body
-
-  const user = await prisma.user.findFirst({
-    where: {
-      email
-    }
-  })
-
-  if (user) {
-    return res.json({
-      user,
-      message: 'Email already in use'
-    })
-  }
-
-  return res.json({
-    message: 'Valid'
-  })
 }

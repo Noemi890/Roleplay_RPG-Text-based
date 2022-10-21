@@ -4,8 +4,6 @@ export const userInitialState = {
 }
 
 export const userProfileCreation = {
-  name: '',
-  surname: '',
   image: '',
   age: 0,
   race: '',

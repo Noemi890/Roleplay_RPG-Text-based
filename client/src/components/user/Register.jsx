@@ -9,6 +9,7 @@ import client from "../../client/client";
 
 const RegisterPage = () => {
   const [registerDetails, setRegisterDetails] = useState(userInitialState);
+  const [error, setError] = useState('')
   const [alert, setAlert] = useState(false)
   const navigate = useNavigate()
 
@@ -25,16 +26,17 @@ const RegisterPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
       client
-        .post('/check', registerDetails)
+        .post('/', registerDetails)
         .then(res => {
-          console.log(res)
-          if(!res.data.user) {
-            navigate('/profile/create', { state: {...registerDetails} })
-          }
+          navigate('/profile/create', { state: res.data.createdUser.id })
+        })
+        .catch (error => {
+          setError(error.response.data?.error)
           setAlert(true)
-          setTimeout(() => {
-            setAlert(false)
-          }, '3000')
+            setTimeout(() => {
+              setAlert(false)
+              setError('')
+            }, '3000')
         })
   }
 
@@ -57,7 +59,7 @@ const RegisterPage = () => {
         </Typography>
       </Card>
         {alert && 
-          <Alert severity="error">Email already in use</Alert>
+          <Alert severity="error">{error}</Alert>
         }
     </div>
   );
