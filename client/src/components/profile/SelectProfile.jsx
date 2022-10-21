@@ -1,19 +1,14 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Avatar,
-  Dialog,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemText
-} from "@mui/material";
+import { ClickAwayListener, Dialog } from "@mui/material";
 import "./profile.css";
+import RenderList from "./RenderList";
 import client from "../../client/client";
 
 const SelectProfile = () => {
   const [profiles, setProfiles] = useState([]);
+  const [open, setOpen] = useState(true)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,13 +19,20 @@ const SelectProfile = () => {
   }, []);
 
   const handleClick = (e, index) => {
-    const profile = profiles[index]
-    console.log(profile)
+    const profile = profiles[index];
+    console.log(profile);
     if (profile.gameId) {
-      navigate('/game', {state: profile})
-    }
-    else {
-      navigate('/main', {state: profile})
+      navigate("/game", { state: {
+        user: profile,
+        profiles
+      } 
+    });
+    } else {
+      navigate("/main", { state: {
+        user: profile,
+        profiles
+      } 
+    });
     }
   };
 
@@ -38,27 +40,7 @@ const SelectProfile = () => {
     <>
       <h2 className="profile_select_title">Select your Character</h2>
       <Dialog className="select_profile_dialog" open={true}>
-        <List>
-          {profiles.map((profile, i) => {
-            return (
-                <ListItem
-                  sx={{ cursor: "pointer" }}
-                  key={i + 1}
-                  onClick={(e) => handleClick(e, i)}
-                >
-                  <ListItemAvatar>
-                    <Avatar
-                      alt={profile.name}
-                      src={profile.image ? profile.image : ""}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={`${profile.name} ${profile.surname}`}
-                  />
-                </ListItem>
-            );
-          })}
-        </List>
+          <RenderList profiles={profiles} handleClick={handleClick} />
       </Dialog>
     </>
   );

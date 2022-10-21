@@ -1,0 +1,31 @@
+.header {
+  margin: 0.3rem;
+  width: 97vw;
+  background-image: url("../../../public/noisy-texture-200x200-o10-d10-c-2e2a2c-t1.png");
+  background-color: rgb(49, 49, 49);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title_logo_container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.main_title {
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 2.5rem;
+  color: white;
+  margin-left: 1rem;
+}
+
+.nav_btn.MuiButtonBase-root {
+  margin-right: 1rem;
+  background-color: grey;
+}
+
+.nav_btn.MuiButtonBase-root:hover {
+  background-color: rgb(169, 169, 169);
+}
