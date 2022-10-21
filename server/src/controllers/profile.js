@@ -44,3 +44,30 @@ export const createProfile = async (req, res) => {
     })
   }
 }
+
+export const getAll = async(req, res) => {
+  const userId = req.user.id
+
+  if (!userId) {
+    return res.status(400).json({
+      error: 'Invalid ID'
+    })
+  }
+
+  try { 
+    const profiles = await prisma.profile.findMany({
+      where: {
+        userId
+      }
+    })
+
+    return res.json({
+      profiles
+    })
+  }
+  catch (error) {
+    return res.status(500).json({
+      error: "Something went wrong"
+    })
+  }
+}

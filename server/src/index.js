@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use('/', authRouter)
 app.use('/', userRouter)
 app.use('/profile', profileRouter)
+app.use('/profiles', profileRouter)
 
 
 const port = 4001

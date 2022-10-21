@@ -13,7 +13,7 @@ export const validateAuth = async (req, res, next) => {
 
   const [type, token] = header.split(' ')
 
-  const typeValid = type.toUppercase() === 'BEARER' ? true : false
+  const typeValid = type.toUpperCase() === 'BEARER' ? true : false
   if (!typeValid) {
     return res.status(400).json({
       message: `expected type Bearer but got ${type} instead` 
@@ -22,19 +22,19 @@ export const validateAuth = async (req, res, next) => {
 
   const tokenValid = validateToken(token)
   if (!tokenValid) {
-    return res.status().json({
+    return res.status(404).json({
       authorization: 'Missing access token'
     })
   }
 
   if (tokenValid.name === 'TokenExpiredError') {
-    res.status().json({
+    res.status(400).json({
       authorization: 'token expired'
     })
   }
 
   if (tokenValid.name) {
-    return res.staus().json({
+    return res.status(400).json({
       authorization: 'Invalid token'
     })
   }
@@ -57,7 +57,9 @@ const validateToken = (token) => {
   if (!token) return false
 
   return jwt.verify(token, secret, (err) => {
-    if (err) return err
+    if (err) {
+      return err
+    }
     return !err
   })
 }
