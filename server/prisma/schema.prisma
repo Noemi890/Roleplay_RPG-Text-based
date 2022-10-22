@@ -28,7 +28,8 @@ model Profile {
   race      String?
   biography String?
   gameId    Int?
-  game      Game?      @relation(fields: [gameId], references: [id])
+  game      Game?     @relation(fields: [gameId], references: [id])
+  roles     Role[]
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
@@ -36,6 +37,16 @@ model Profile {
 model Game {
   id       Int       @id @default(autoincrement())
   profiles Profile[]
+  roles    Role[]
   title    String
   story    String?
+}
+
+model Role {
+  id      Int       @id @default(autoincrement())
+  title   String
+  content String
+  gameId  Int
+  game    Game      @relation(fields: [gameId], references: [id])
+  profile Profile[]
 }

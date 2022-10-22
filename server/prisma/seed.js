@@ -34,7 +34,24 @@ async function seed() {
       gameId: game.id,
       name: 'Sr. Cat',
       surname: 'Wilson',
-      image: 'https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80'
+      image: 'https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80',
+      roles: {
+        create: [
+          {
+            gameId: game.id,
+            title: 'It\'s always sunny in CatLand',
+            content: 'It was a sunny day in CatLand. I woke up near my bowl of food as usual, whit still one paw in it.'
+          },
+          {
+            gameId: game.id,
+            title: 'Another one bites my tail',
+            content: 'I was minding my own business, laid on the couch like always, when, all of a sudden, an incredible pain spiraled through my spine. That damn dog has done it again!'
+          }
+        ]
+      }
+    },
+    include: {
+      roles: true
     }
   })
 
