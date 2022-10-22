@@ -24,7 +24,7 @@ async function seed() {
 
   const game = await prisma.game.create({
     data: {
-      title: 'Once Upon a Time'
+      title: 'Dawn of Cats'
     }
   })
 

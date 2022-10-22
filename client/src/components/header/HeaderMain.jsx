@@ -5,7 +5,7 @@ import './header.css'
 import { Avatar, Button, ClickAwayListener, Dialog, DialogContent } from '@mui/material'
 import RenderList from "../profile/RenderList"
 
-const Header = ({profiles, setUser, user, game = null}) => {
+const Header = ({profiles, user, game = null}) => {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
 
@@ -43,7 +43,7 @@ const Header = ({profiles, setUser, user, game = null}) => {
       </div>
       {
         game && 
-        <h2>{game?.title}</h2>
+        <h2 className="RPG_title">{`${game?.title} RPG`}</h2>
       }
       <nav>
         <Button className="nav_btn" variant="contained" onClick={handleProfilesClick}>Profiles</Button>

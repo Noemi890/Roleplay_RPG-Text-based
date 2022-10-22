@@ -1,0 +1,24 @@
+.side_bar {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  height: 90vh;
+  max-width: 190px;
+
+  background-image: url("../../../public/noisy-texture-200x200-o10-d10-c-2e2a2c-t1.png");
+  background-color: rgb(49, 49, 49);
+
+  padding: 1rem;
+  margin-left: 0.3rem;
+  margin-bottom: 0.2rem;
+
+  border-radius: 0.5rem;
+  box-shadow: 7px 7px 22px -6px rgba(0, 0, 0, 0.528);
+}
+
+.side_nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-left: 0.5rem;
+}

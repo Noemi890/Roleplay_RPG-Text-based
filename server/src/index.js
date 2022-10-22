@@ -3,6 +3,7 @@ import cors from 'cors'
 import authRouter from './routes/auth.js'
 import userRouter from './routes/user.js'
 import profileRouter from './routes/profile.js'
+import gameRouter from './routes/game.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -16,6 +17,7 @@ app.use('/', authRouter)
 app.use('/', userRouter)
 app.use('/profile', profileRouter)
 app.use('/profiles', profileRouter)
+app.use('/game', gameRouter)
 
 
 const port = 4001

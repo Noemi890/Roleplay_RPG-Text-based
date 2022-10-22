@@ -2,6 +2,7 @@ import React from "react"
 import { useState, useEffect } from "react"
 import { useLocation } from "react-router-dom"
 import Header from "../header/HeaderMain"
+import SideBar from "../sideBar/SideBar"
 
 const Main = () => {
   const [user, setUser] = useState({})
@@ -16,7 +17,8 @@ const Main = () => {
 
   return (
     <>
-    <Header profiles={location.state?.profiles} setUser={setUser} user={user}/>
+    <Header profiles={location.state?.profiles} user={user}/>
+    <SideBar />
     </>
   )
 }

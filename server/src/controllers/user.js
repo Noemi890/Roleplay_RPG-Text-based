@@ -21,7 +21,7 @@ export const createUser = async (req, res) => {
   })
 
   if (foundUser) {
-    return res.status(400).json({
+    return res.status(409).json({
       error: "Email already in use"
     })
   }
