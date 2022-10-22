@@ -16,6 +16,9 @@ export const getGame = async (req, res) => {
     const gameFound = await prisma.game.findUnique({
       where: {
         id
+      },
+      include: {
+        roles: true
       }
     })
 
