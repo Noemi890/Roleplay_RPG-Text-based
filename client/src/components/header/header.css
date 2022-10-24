@@ -7,10 +7,6 @@
   justify-content: space-between;
   align-items: center;
 
-  position: fixed;
-  top: 0;
-  left: 0;
-
   border-radius: 0.5rem;
   box-shadow: 1px 15px 22px -6px rgba(0, 0, 0, 0.528);
 }
@@ -36,4 +32,10 @@
 
 .nav_btn.MuiButtonBase-root:hover {
   background-color: rgb(169, 169, 169);
+}
+
+@media screen and (max-width: 650px){
+  .RPG_title {
+    display: none;
+  }
 }

@@ -8,7 +8,7 @@ export const createProfile = async (req, res) => {
 
   if (!name || !surname) {
     return res.status(400).json({
-      error: 'Missing name/surname in the request'
+      error: 'Missing information in the request'
     })
   }
 

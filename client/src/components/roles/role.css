@@ -1,0 +1,49 @@
+.role_wrap {
+  max-width: 50rem;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+  
+  background-color: white;
+}
+
+
+.MuiListItem-root.role_listItem {
+display: inline-block;
+max-width: 800px;
+}
+
+.listItem_wrap {
+  max-width: 56vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.role_header {
+  display: flex;
+  gap: 1rem;
+}
+
+.role_title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.role_content {
+  text-align: center;
+  margin: auto;
+  max-width: 40rem;
+}
+
+.create_role_wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.create_role_form{
+  display: flex;
+  flex-direction: column;
+  place-items: center;
+  gap: 4rem;
+}
+

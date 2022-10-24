@@ -1,0 +1,19 @@
+.game_wrap,
+.main_wrap {
+  display: grid;
+  grid-auto-rows: 0.5 auto;
+}
+
+.sideBar_main_wrap {
+  display: grid;
+  grid-template-columns: 0.5fr auto;
+}
+
+.roles_wrap {
+  margin-top: 1rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}

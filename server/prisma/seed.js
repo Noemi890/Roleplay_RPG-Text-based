@@ -40,7 +40,7 @@ async function seed() {
           {
             gameId: game.id,
             title: 'It\'s always sunny in CatLand',
-            content: 'It was a sunny day in CatLand. I woke up near my bowl of food as usual, whit still one paw in it.'
+            content: 'It was a sunny day in CatLand. I woke up near my bowl of food as usual, with still one paw in it.'
           },
           {
             gameId: game.id,

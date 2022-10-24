@@ -28,7 +28,7 @@ export const validateAuth = async (req, res, next) => {
   }
 
   if (tokenValid.name === 'TokenExpiredError') {
-    res.status(400).json({
+    return res.status(400).json({
       authorization: 'token expired'
     })
   }

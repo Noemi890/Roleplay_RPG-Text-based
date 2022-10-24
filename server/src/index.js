@@ -4,6 +4,7 @@ import authRouter from './routes/auth.js'
 import userRouter from './routes/user.js'
 import profileRouter from './routes/profile.js'
 import gameRouter from './routes/game.js'
+import roleRouter from './routes/role.js'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -18,6 +19,7 @@ app.use('/', userRouter)
 app.use('/profile', profileRouter)
 app.use('/profiles', profileRouter)
 app.use('/game', gameRouter)
+app.use('/role', roleRouter)
 
 
 const port = 4001

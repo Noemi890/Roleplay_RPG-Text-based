@@ -11,9 +11,8 @@ const SideBar = ({ user, game = null }) => {
         { game ?
           <>
             <Button className="nav_btn" variant="contained">Game Roles</Button>
-            <Button className="nav_btn" variant="contained">Your open Roles</Button>
             <Button className="nav_btn" variant="contained">Ended Roles</Button>
-            <Button className="nav_btn" variant="contained">Create Role</Button>
+            <Button className="nav_btn" variant="contained">Your Open Roles</Button>
           </> : 
           <>
             <Button className="nav_btn" variant="contained">Explore Games</Button>
