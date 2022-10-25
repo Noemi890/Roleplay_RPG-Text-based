@@ -38,12 +38,45 @@ export const createRole = async (req, res) => {
   }
 }
 
+export const getAll = async (req, res) => {
+  const gameId = Number(req.params.id)
+
+  if (!gameId) {
+    return res.status(401).json({
+      error: 'Missing params'
+    })
+  }
+
+  try {
+    const roles = await prisma.role.findMany({
+      where: {
+        gameId
+      }
+    })
+
+    if(!roles) {
+      return res.status(401).json({
+        error: 'Roles not found'
+      })
+    }
+
+    return res.status(200).json({
+      roles
+    })
+  }
+  catch (error) {
+    return res.status(500).json({
+      error: 'Something went wrong'
+    })
+  }
+}
+
 export const getRole = async (req, res) => {
   const id = Number(req.params.id)
 
   if (!id) {
     return res.status(401).json({
-      error: 'Missing parameters'
+      error: 'Missing params'
     })
   }
 

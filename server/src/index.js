@@ -19,6 +19,7 @@ app.use('/', userRouter)
 app.use('/profile', profileRouter)
 app.use('/game', gameRouter)
 app.use('/role', roleRouter)
+app.use('/roles', roleRouter)
 
 
 const port = 4001
