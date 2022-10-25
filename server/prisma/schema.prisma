@@ -30,6 +30,7 @@ model Profile {
   gameId    Int?
   game      Game?     @relation(fields: [gameId], references: [id])
   roles     Role[]
+  events    Event[]
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 }
@@ -48,5 +49,15 @@ model Role {
   content String
   gameId  Int
   game    Game      @relation(fields: [gameId], references: [id])
+  events  Event[]
   profile Profile[]
+}
+
+model Event {
+  id      Int       @id @default(autoincrement())
+  content String
+  profileId Int
+  profile Profile @relation(fields: [profileId], references: [id])
+  roleId  Int
+  role  Role  @relation(fields: [roleId], references: [id])
 }
