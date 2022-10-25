@@ -1,13 +1,15 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "./Form";
 import { Typography, Link, Card, Button, Alert } from "@mui/material";
 import { userInitialState, initialErrorState } from "../utils/constants";
 import client from "../../client/client";
 import { tokenKey } from "../../client/client";
+import { loggedInUser } from "../../App";
 
 const LoginPage = () => {
+  const { onLogin } = useContext(loggedInUser);
   const [loginDetails, setLoginDetails] = useState(userInitialState);
   const [error, setError] = useState(initialErrorState);
   const navigate = useNavigate();
@@ -29,6 +31,7 @@ const LoginPage = () => {
           console.log(res)
           localStorage.setItem(tokenKey, res.data.token);
           const user = res.data.user;
+          onLogin(user);
           navigate("/profile/select", {
             state: {
               id: user.id

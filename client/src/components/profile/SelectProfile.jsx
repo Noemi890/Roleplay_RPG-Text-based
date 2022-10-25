@@ -5,14 +5,17 @@ import { Dialog } from "@mui/material";
 import "./profile.css";
 import RenderList from "./RenderList";
 import client from "../../client/client";
+import { useContext } from "react";
+import { loggedInUser } from "../../App";
 
 const SelectProfile = () => {
+  const { user } = useContext(loggedInUser)
   const [profiles, setProfiles] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
   
   useEffect(() => {
-    client.get(`/user/${location.state.id}/profiles`).then((res) => {
+    client.get(`/user/${user.id}/profiles`).then((res) => {
       setProfiles(res.data.profiles);
     });
     //eslint-disable-next-line
