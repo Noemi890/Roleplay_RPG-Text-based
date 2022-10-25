@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Avatar,
   ListItem,
@@ -14,11 +15,7 @@ import { initialRoleContent } from "../utils/constants";
 import "./role.css";
 import client from "../../client/client";
 
-const RolesMain = ({
-  user,
-  game,
-  setRoleCreated
-}) => {
+const RolesMain = ({ user, game, setRoleCreated }) => {
   const [createRole, setCreateRole] = useState(initialRoleContent);
   const [open, setOpen] = useState(false);
   const [response, setResponse] = useState({
@@ -31,6 +28,7 @@ const RolesMain = ({
       status: false,
     },
   });
+  const navigate = useNavigate()
 
   const handleCreateRoleClick = () => {
     setOpen(true);
@@ -61,9 +59,9 @@ const RolesMain = ({
         console.log(res);
         setResponse({
           ...response,
-          success: { 
-            status: true, 
-            message: res.data.message 
+          success: {
+            status: true,
+            message: res.data.message,
           },
         });
         setTimeout(() => {
@@ -76,12 +74,12 @@ const RolesMain = ({
         }, "3000");
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
         setResponse({
           ...response,
-          error: { 
+          error: {
             status: true,
-            message: error.response.data.message
+            message: error.response.data.message,
           },
         });
         setTimeout(() => {
@@ -93,6 +91,10 @@ const RolesMain = ({
       });
   };
 
+  const handleRoleClick = (e, i) => {
+    navigate('/role', { state: { role: game.roles[i] }})
+  }
+
   return (
     <>
       <Dialog open={open}>
@@ -102,7 +104,7 @@ const RolesMain = ({
               variant="standard"
               label="title"
               name="title"
-              sx={{ width: '25rem'}}
+              sx={{ width: "25rem" }}
               value={createRole.title}
               onChange={handleChange}
             />
@@ -111,7 +113,7 @@ const RolesMain = ({
               variant="standard"
               label="content"
               name="content"
-              sx={{ width: '25rem'}}
+              sx={{ width: "25rem" }}
               value={createRole.content}
               onChange={handleChange}
             />
@@ -142,24 +144,25 @@ const RolesMain = ({
           game.roles.map((role, i) => {
             return (
               <div className="role_wrap" key={i}>
-                <ListItem className="role_listItem">
-                  <div className="role_header">
-                    <Avatar alt={user.name} src={user.image} />
-                    <ListItemText>{`${user.name} ${user.surname}`}</ListItemText>
-                  </div>
-                  <div className="role_title">
-                    <ListItemText>
-                      <strong>{role.title}</strong>
-                    </ListItemText>
-                  </div>
-                  <div className="role_content">
-                    <ListItemText>{role.content}</ListItemText>
-                  </div>
-                </ListItem>
+                <Button variant="none" sx={{ width: "-webkit-fill-available" }} onClick={(e) => handleRoleClick(e, i)}>
+                  <ListItem className="role_listItem">
+                    <div className="role_header">
+                      <Avatar alt={user.name} src={user.image} />
+                      <ListItemText>{`${user.name} ${user.surname}`}</ListItemText>
+                    </div>
+                    <div className="role_title">
+                      <ListItemText>
+                        <strong>{role.title}</strong>
+                      </ListItemText>
+                    </div>
+                    <div className="role_content">
+                      <ListItemText>{role.content}</ListItemText>
+                    </div>
+                  </ListItem>
+                </Button>
               </div>
             );
-          })
-        }
+          })}
       </div>
     </>
   );
