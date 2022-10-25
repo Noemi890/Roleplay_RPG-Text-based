@@ -61,7 +61,10 @@ const RolesMain = ({
         console.log(res);
         setResponse({
           ...response,
-          success: { status: true },
+          success: { 
+            status: true, 
+            message: res.data.message 
+          },
         });
         setTimeout(() => {
           setResponse({
@@ -69,13 +72,17 @@ const RolesMain = ({
             success: { status: false },
           });
           setOpen(false);
-          setRoleCreated(res.data);
+          setRoleCreated(res.data.role);
         }, "3000");
       })
       .catch((error) => {
+        console.log(error)
         setResponse({
           ...response,
-          error: { status: true },
+          error: { 
+            status: true,
+            message: error.response.data.message
+          },
         });
         setTimeout(() => {
           setResponse({

@@ -7,7 +7,7 @@ export const createRole = async (req, res) => {
 
   if (!profileId || !gameId || !title || !content) {
     return res.status(400).json({
-      error: 'Missing information in the request'
+      message: 'Missing information in the request'
     })
   }
 
@@ -26,7 +26,10 @@ export const createRole = async (req, res) => {
       }
     })
 
-    return res.status(201).json({ createdRole })
+    return res.status(201).json({ 
+      message: "Role created successfully",
+      role: createdRole 
+    })
   }
   catch (e) {
     return res.status(500).json({
