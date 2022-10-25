@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./profile.css";
@@ -8,13 +8,23 @@ import client from "../../client/client";
 
 const Profile = () => {
   const [userCharacter, setUserCharacter] = useState(userProfileCreation);
-  const [data, setData] = useState('')
-  const [success, setSuccess] = useState(false)
-  const [error, setError] = useState(false)
+  const [data, setData] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [profile, setProfile] = useState({})
   const location = useLocation();
-  const navigate = useNavigate()
-  const userId = location.state
+  const navigate = useNavigate();
+  const userId = location.state;
   const header = location.state.id ? true : false;
+  
+  useEffect(() => {
+    client
+      .get(`/profile/${location.state.profile}`)
+      .then(res => {
+        setProfile(res.data.profile)
+      })
+    //eslint-disable-next-line
+    }, [])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,37 +34,48 @@ const Profile = () => {
     });
   };
 
-
   const handleSubmit = (e) => {
-    e.preventDefault()
-    console.log(userId, userCharacter)
+    e.preventDefault();
     client
-      .post('/profile/create', { user: userId, profile: userCharacter }, header)
-      .then(res => {
-        setData(res.data.message)
-        setSuccess(true)
-        const profile = res.data.createdProfile
-        const profiles = res.data.user.profiles
+      .post("/profile/create", { user: userId, profile: userCharacter }, header)
+      .then((res) => {
+        setData(res.data.message);
+        setSuccess(true);
+        const profile = res.data.createdProfile;
+        const profiles = res.data.user.profiles;
         setTimeout(() => {
           setSuccess(false);
           if (!header) {
-          navigate('/login')
+            navigate("/login");
+          } else {
+            navigate("/main", {
+              state: {
+                profile,
+                profiles,
+              },
+            });
           }
-          else {
-            navigate('/main', {state: {
-              profile,
-              profiles
-            }})
-          }
-        }, '3000');
+        }, "3000");
       })
-    .catch (e => {
-      setData(e.data.error)
-      setError(true)
-      setTimeout(() => {
-        setError(false);
-      }, '3000');
-    })
+      .catch((e) => {
+        setData(e.data.error);
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+        }, "3000");
+      });
+  };
+
+  const handleBackClick = () => {
+    if(!location.state.game) {
+      navigate('/main', {state: {
+        profile
+      }})}
+    else {
+    navigate("/game", {state: {
+      profile
+    }});
+    }
   };
 
   return (
@@ -62,76 +83,79 @@ const Profile = () => {
       <h2 className="profile_creation_title">Create your new Character</h2>
       <Card className="profile_creation_card">
         <form className="profile_creation_card" onSubmit={handleSubmit}>
-        <TextField
-          required
-          variant="standard"
-          className="profile_creation_input"
-          name="name"
-          label="name"
-          value={userCharacter.name}
-          onChange={handleChange}
-        />
-        <TextField
-          required
-          variant="standard"
-          className="profile_creation_input"
-          name="surname"
-          label="surname"
-          value={userCharacter.surname}
-          onChange={handleChange}
-        />
-        <TextField
-          variant="standard"
-          className="profile_creation_input"
-          type="text"
-          name="image"
-          label="image URL"
-          value={userCharacter.image}
-          onChange={handleChange}
-        />
-        <TextField
-          variant="standard"
-          className="profile_creation_input"
-          name="race"
-          label="race"
-          value={userCharacter.race}
-          onChange={handleChange}
-        />
-        <TextField 
-          type="number"
-          variant="standard"
-          className="profile_creation_input"
-          label="age"
-          name="age"
-          value={userCharacter.age}
-          onChange={handleChange}
-        />
-        <TextField
-          multiline
-          variant="standard"
-          className="profile_creation_input"
-          label="biography"
-          name="biography"
-          value={userCharacter.biography}
-          onChange={handleChange}
-        />
-        <Button
-          className="profile_creation_btn"
-          variant="contained"
-          type="submit"
-        >
-          Create Profile
-        </Button>
+          <TextField
+            required
+            variant="standard"
+            className="profile_creation_input"
+            name="name"
+            label="name"
+            value={userCharacter.name}
+            onChange={handleChange}
+          />
+          <TextField
+            required
+            variant="standard"
+            className="profile_creation_input"
+            name="surname"
+            label="surname"
+            value={userCharacter.surname}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="standard"
+            className="profile_creation_input"
+            type="text"
+            name="image"
+            label="image URL"
+            value={userCharacter.image}
+            onChange={handleChange}
+          />
+          <TextField
+            variant="standard"
+            className="profile_creation_input"
+            name="race"
+            label="race"
+            value={userCharacter.race}
+            onChange={handleChange}
+          />
+          <TextField
+            type="number"
+            variant="standard"
+            className="profile_creation_input"
+            label="age"
+            name="age"
+            value={userCharacter.age}
+            onChange={handleChange}
+          />
+          <TextField
+            multiline
+            variant="standard"
+            className="profile_creation_input"
+            label="biography"
+            name="biography"
+            value={userCharacter.biography}
+            onChange={handleChange}
+          />
+          <Button
+            className="profile_creation_btn nav_btn"
+            variant="contained"
+            type="submit"
+          >
+            Create Profile
+          </Button>
+          {header && (
+            <Button
+              className="go_back_btn nav_btn"
+              variant="contained"
+              onClick={handleBackClick}
+            >
+              Back
+            </Button>
+          )}
         </form>
       </Card>
-        {
-          success ? 
-          <Alert severity="success">{data}</Alert> : <></>
-        }
-        {
-          error ? 
-          <Alert severity="error">{data}</Alert> : <></>
-        }
+      {success ? <Alert severity="success">{data}</Alert> : <></>}
+      {error ? <Alert severity="error">{data}</Alert> : <></>}
     </div>
   );
 };

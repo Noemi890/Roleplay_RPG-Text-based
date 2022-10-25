@@ -28,7 +28,8 @@ const Header = ({ user, game = null}) => {
   }
 
   const handleCreateNewProfile = () => {
-    navigate('/profile/create', { state: {id : user.userId} })
+    console.log(user)
+    navigate('/profile/create', { state: {id : user.userId, profile: user.id, game} })
   }
 
   const handleLogOutClick = () => {
