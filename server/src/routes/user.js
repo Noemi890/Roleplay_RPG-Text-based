@@ -5,7 +5,7 @@ import { validateAuth } from '../middleware/auth.js'
 const router = Router()
 
 router.post('/', createUser)
-router.get('/user/:id/profiles', validateAuth, getAllProfiles)
+router.get('/:id/profiles', validateAuth, getAllProfiles)
 router.get('/', validateAuth, getUserById)
 
 export default router

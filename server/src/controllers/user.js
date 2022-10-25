@@ -1,108 +1,112 @@
-import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export const createUser = async (req, res) => {
-  const { email, password } = req.body
+  const { email, password } = req.body;
 
   if (!email || !password) {
     return res.status(400).json({
-      message: 'Email or Password not provided'
-    })
+      message: "Email or Password not provided",
+    });
   }
 
-  const passHash = await bcrypt.hash(password, 8)
+  const passHash = await bcrypt.hash(password, 8);
 
   const foundUser = await prisma.user.findFirst({
     where: {
-      email
-    }
-  })
+      email,
+    },
+  });
 
   if (foundUser) {
     return res.status(409).json({
-      error: "Email already in use"
-    })
+      error: "Email already in use",
+    });
   }
 
   try {
-    
     const createdUser = await prisma.user.create({
       data: {
         email,
-        password: passHash
-      }
-    })
+        password: passHash,
+      },
+    });
 
-    return res.status(201).json({ 
+    return res.status(201).json({
       createdUser,
-      message: 'Success. You can now login'
-    })
-  }
-  catch (e) {
+      message: "Success. You can now login",
+    });
+  } catch (e) {
     res.status(500).json({
-      error: 'Cannot create User'
-    })
+      error: "Cannot create User",
+    });
   }
-
-}
+};
 
 export const getUserById = async (req, res) => {
-  
-  const id = req.user.id
+  const id = req.user.id;
 
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        id
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    include: {
+      profile: {
+        include: {
+          game: {
+            include: {
+              roles: {
+                include: {
+                  events: {
+                    include: {
+                      profile: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
-      include: {
-        profile: {
-          include: {
-            game: true
-          }
-        }
-      }
-    })
+    },
+  });
 
-    console.log(user)
-
-    return res.json({
-      user
-    })
+  return res.json({
+    user,
+  });
   }
   catch (e) {
     return res.status(500).json({
       error: "something went wrong"
     })
   }
-}
+};
 
-export const getAllProfiles = async(req, res) => {
-  const userId = Number(req.params.id)
+export const getAllProfiles = async (req, res) => {
+  const userId = Number(req.params.id);
 
   if (!userId) {
     return res.status(400).json({
-      error: 'Invalid ID'
-    })
+      error: "Invalid ID",
+    });
   }
 
-  try { 
-
+  try {
     const profiles = await prisma.profile.findMany({
       where: {
-        userId
-      }
-    })
-    
+        userId,
+      },
+    });
+
     return res.json({
-      profiles
-    })
-  }
-  catch (error) {
+      profiles,
+    });
+  } catch (error) {
     return res.status(500).json({
-      error: "Something went wrong"
-    })
+      error: "Something went wrong",
+    });
   }
-}
+};
