@@ -95,7 +95,7 @@ const RolesMain = ({
               variant="standard"
               label="title"
               name="title"
-              sx={{ width: "30rem" }}
+              sx={{ width: '25rem'}}
               value={createRole.title}
               onChange={handleChange}
             />
@@ -104,7 +104,7 @@ const RolesMain = ({
               variant="standard"
               label="content"
               name="content"
-              sx={{ width: "30rem" }}
+              sx={{ width: '25rem'}}
               value={createRole.content}
               onChange={handleChange}
             />
@@ -121,16 +121,16 @@ const RolesMain = ({
         )}
       </Dialog>
       <div className="listItem_wrap">
-      <div className="create_role_wrap">
-              <Button
-                size="large"
-                className="nav_btn"
-                variant="contained"
-                onClick={handleCreateRoleClick}
-              >
-                Create Role
-              </Button>
-            </div>
+        <div className="create_role_wrap">
+          <Button
+            size="large"
+            className="nav_btn"
+            variant="contained"
+            onClick={handleCreateRoleClick}
+          >
+            Create Role
+          </Button>
+        </div>
         {game.roles &&
           game.roles.map((role, i) => {
             return (

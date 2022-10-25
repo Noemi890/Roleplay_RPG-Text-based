@@ -41,7 +41,7 @@ const Form = ({ details, handleChange }) => {
           endAdornment: (
             <InputAdornment position="end">
               <IconButton onClick={handleShow}>
-                {show ? <VisibilityOff /> : <Visibility />}
+                {show ? <VisibilityOff className="svg_icon" /> : <Visibility className="svg_icon"/>}
               </IconButton>
             </InputAdornment>
           ),

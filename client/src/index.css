@@ -10,3 +10,23 @@ body {
   background-image: url("../public/noisy-texture-200x200-o10-d10-c-2e2a2c-t1.png");
   background-color: rgb(202, 202, 202);
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f14e;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(136, 136, 136);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  border-radius: 5px;
+}

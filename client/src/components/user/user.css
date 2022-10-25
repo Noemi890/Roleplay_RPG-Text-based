@@ -24,6 +24,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: auto;
 
   width: 50vw;
   min-height: 35vw;
@@ -43,4 +44,9 @@
 .form_layout {
   display: flex;
   flex-direction: column;
+  margin: 0 2rem;
+}
+
+.MuiSvgIcon-root.svg_icon {
+  position: fixed;
 }

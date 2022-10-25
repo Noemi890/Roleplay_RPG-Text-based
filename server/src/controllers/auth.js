@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { getUserByEmail } from './user.js'
+import { getUserByEmailUtil } from './utils/utils.js'
 const expiry = process.env.JWT_EXPIRY
 const secret = process.env.JWT_SECRET
 
@@ -14,7 +14,7 @@ export const login = async (req, res) => {
   }
 
   try {
-    const user = await getUserByEmail(email)
+    const user = await getUserByEmailUtil(email)
     if (!user) {
       return res.status(400).json({
         error: 'Invalid email and/or password provided'

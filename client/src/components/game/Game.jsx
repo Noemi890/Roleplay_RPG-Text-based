@@ -16,25 +16,27 @@ const Game = () => {
   const location = useLocation();
 
   useEffect(() => {
-    setUser(location.state.user);
-    client.get(`/game/${location.state.user.gameId}`).then((res) => {
+    console.log(location.state)
+    setUser(location.state.profile);
+    client.get(`/game/${location.state.profile.gameId}`).then((res) => {
       setGame(res.data.game);
     });
     //eslint-disable-next-line
-  }, [roleCreated]);
+  }, [roleCreated, location]);
 
   return (
     <>
       <div className="game_wrap">
         <div className="header_wrap">
-          <Header profiles={location.state.profiles} user={user} game={game} />
+          <Header user={user} game={game} />
         </div>
         <div className="sideBar_main_wrap">
           <div>
             <SideBar user={user} game={game} />
           </div>
           <div className="roles_wrap">
-            <List>
+            <List className="list_ul_feed">
+              <h2 className="welcome_title">{`Welcome, ${user.name} ${user.surname}!`}</h2>
               <RolesMain
                 user={user}
                 game={game}

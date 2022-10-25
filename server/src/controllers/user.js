@@ -48,31 +48,62 @@ export const createUser = async (req, res) => {
 
 }
 
-export const getUserById = async (id) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id
-    }
-  })
+export const getUserById = async (req, res) => {
 
-  if (!user) {
-    return false
+  const id = req.user.id
+  console.log(id)
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id
+      },
+      include: {
+        profile: {
+          include: {
+            game: true
+          }
+        }
+      }
+    })
+
+    console.log(user)
+
+    return res.json({
+      user
+    })
   }
-  return user
+  catch (e) {
+    return res.status(500).json({
+      error: "something went wrong"
+    })
+  }
 }
 
-export const getUserByEmail = async (email) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      email
-    },
-    include: {
-      profile: true
-    }
-  })
+export const getAllProfiles = async(req, res) => {
+  const userId = Number(req.params.id)
 
-  if (!user) {
-    return false
+  if (!userId) {
+    return res.status(400).json({
+      error: 'Invalid ID'
+    })
   }
-  return user
+
+  try { 
+
+    const profiles = await prisma.profile.findMany({
+      where: {
+        userId
+      }
+    })
+    
+    return res.json({
+      profiles
+    })
+  }
+  catch (error) {
+    return res.status(500).json({
+      error: "Something went wrong"
+    })
+  }
 }

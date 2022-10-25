@@ -5,14 +5,17 @@ import {
   Avatar,
   ListItemAvatar,
   ListItemText,
+  Button,
 } from "@mui/material";
+import AddCircleTwoToneIcon from "@mui/icons-material/AddCircleTwoTone";
 
-const RenderList = ({ profiles, handleClick }) => {
+const RenderList = ({ profiles, handleClick, handleCreateNewProfile }) => {
   return (
-    <List>
+    <List className="list_item">
       {profiles?.map((profile, i) => {
         return (
           <ListItem
+            className="list_item_render"
             sx={{ cursor: "pointer" }}
             key={i + 1}
             onClick={(e) => handleClick(e, i)}
@@ -27,6 +30,16 @@ const RenderList = ({ profiles, handleClick }) => {
           </ListItem>
         );
       })}
+      <div className="create_new_profile_btn">
+        <Button
+          className="nav_btn"
+          variant="contained"
+          onClick={handleCreateNewProfile}
+          endIcon={<AddCircleTwoToneIcon />}
+        >
+          Create new profile
+        </Button>
+      </div>
     </List>
   );
 };

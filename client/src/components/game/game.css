@@ -9,11 +9,23 @@
   grid-template-columns: 0.5fr auto;
 }
 
-.roles_wrap {
+.roles_wrap,
+.welcome_no_game_user {
   margin-top: 1rem;
   margin-left: 3rem;
   margin-right: 3rem;
   overflow-x: hidden;
   overflow-y: scroll;
   scroll-behavior: smooth;
+}
+
+.welcome_title {
+  font-family: 'Shadows Into Light', cursive;
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.MuiList-root.list_ul_feed {
+  width: fit-content;
 }

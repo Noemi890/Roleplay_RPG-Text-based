@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { getUserById } from '../controllers/user.js'
+import { getUserByIdUtil } from '../controllers/utils/utils.js'
 const secret = process.env.JWT_SECRET
 
 export const validateAuth = async (req, res, next) => {
@@ -41,7 +41,7 @@ export const validateAuth = async (req, res, next) => {
 
   const decode = jwt.decode(token)
   
-  const foundUser = await getUserById(decode.id)
+  const foundUser = await getUserByIdUtil(decode.id)
 
   if (!foundUser) {
     return res.status(404).json({

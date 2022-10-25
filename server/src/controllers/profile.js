@@ -4,7 +4,8 @@ const prisma = new PrismaClient()
 
 export const createProfile = async (req, res) => {
   const { name, surname, image, age, race, biography } = req.body.profile
-  const userId = req.body.user
+  const userId = req.body.user.id
+  
 
   if (!name || !surname) {
     return res.status(400).json({
@@ -15,6 +16,21 @@ export const createProfile = async (req, res) => {
   if (!userId) {
     return res.status(400).json({
       error: 'Profile must be linked to a User'
+    })
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId
+    },
+    include: {
+      profile: true
+    }
+  })
+
+  if (!user) {
+    return res.status(404).json({
+      error: "User not found"
     })
   }
   
@@ -34,40 +50,14 @@ export const createProfile = async (req, res) => {
 
     return res.status(201).json({
       createdProfile,
+      user,
       message: "profile created successfully"
     })
 
   }
   catch (e) {
-    return res.status(e.status).json({
-      error: e
-    })
-  }
-}
-
-export const getAll = async(req, res) => {
-  const userId = req.user.id
-
-  if (!userId) {
-    return res.status(400).json({
-      error: 'Invalid ID'
-    })
-  }
-
-  try { 
-    const profiles = await prisma.profile.findMany({
-      where: {
-        userId
-      }
-    })
-
-    return res.json({
-      profiles
-    })
-  }
-  catch (error) {
     return res.status(500).json({
-      error: "Something went wrong"
+      error: e
     })
   }
 }

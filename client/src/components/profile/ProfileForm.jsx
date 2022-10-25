@@ -14,6 +14,7 @@ const Profile = () => {
   const location = useLocation();
   const navigate = useNavigate()
   const userId = location.state
+  const header = location.state.id ? true : false;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,22 +24,32 @@ const Profile = () => {
     });
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log(userId, userCharacter)
     client
-      .post('/profile/create', { user: userId, profile: userCharacter }, false)
+      .post('/profile/create', { user: userId, profile: userCharacter }, header)
       .then(res => {
-        console.log(res)
         setData(res.data.message)
         setSuccess(true)
+        const profile = res.data.createdProfile
+        const profiles = res.data.user.profiles
         setTimeout(() => {
           setSuccess(false);
+          if (!header) {
           navigate('/login')
+          }
+          else {
+            navigate('/main', {state: {
+              profile,
+              profiles
+            }})
+          }
         }, '3000');
       })
     .catch (e => {
-      setData(e.data.message)
+      setData(e.data.error)
       setError(true)
       setTimeout(() => {
         setError(false);
@@ -109,7 +120,7 @@ const Profile = () => {
           variant="contained"
           type="submit"
         >
-          {location.state ? "Register" : "Create Profile"}
+          Create Profile
         </Button>
         </form>
       </Card>

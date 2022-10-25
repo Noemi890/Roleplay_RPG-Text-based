@@ -45,5 +45,6 @@ max-width: 800px;
   flex-direction: column;
   place-items: center;
   gap: 4rem;
+  width: 30rem;
 }
 
