@@ -38,3 +38,7 @@
 .MuiList-root.list_item {
   text-align: center;
 }
+
+.go_back_btn.MuiButtonBase-root {
+  margin-bottom: 1rem;
+}

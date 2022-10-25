@@ -2,9 +2,6 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  Avatar,
-  ListItem,
-  ListItemText,
   Button,
   Dialog,
   ClickAwayListener,
@@ -14,8 +11,11 @@ import {
 import { initialRoleContent } from "../utils/constants";
 import "./role.css";
 import client from "../../client/client";
+import RoleRender from "./RoleRender";
+import { useEffect } from "react";
 
-const RolesMain = ({ user, game, setRoleCreated }) => {
+const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
+  const [roles, setRoles] = useState([]) 
   const [createRole, setCreateRole] = useState(initialRoleContent);
   const [open, setOpen] = useState(false);
   const [response, setResponse] = useState({
@@ -28,9 +28,21 @@ const RolesMain = ({ user, game, setRoleCreated }) => {
       status: false,
     },
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (game.id) {
+    client
+      .get(`/roles/game/${game.id}`)
+      .then(res => {
+        setRoles(res.data.roles)
+      })
+    }
+      //eslint-disable-next-line
+  }, [roleCreated, game.id])
 
   const handleCreateRoleClick = () => {
+    console.log(roles)
     setOpen(true);
   };
 
@@ -50,7 +62,7 @@ const RolesMain = ({ user, game, setRoleCreated }) => {
     setCreateRole({
       ...createRole,
       gameId: game.id,
-      profileId: user.id,
+      profileId: profile.id,
     });
 
     client
@@ -92,8 +104,13 @@ const RolesMain = ({ user, game, setRoleCreated }) => {
   };
 
   const handleRoleClick = (e, i) => {
-    navigate('/role', { state: { role: game.roles[i] }})
-  }
+    navigate("/role", { state: { 
+      role: game.roles[i], 
+      profile,
+      game 
+      } 
+    });
+  };
 
   return (
     <>
@@ -144,21 +161,12 @@ const RolesMain = ({ user, game, setRoleCreated }) => {
           game.roles.map((role, i) => {
             return (
               <div className="role_wrap" key={i}>
-                <Button variant="none" sx={{ width: "-webkit-fill-available" }} onClick={(e) => handleRoleClick(e, i)}>
-                  <ListItem className="role_listItem">
-                    <div className="role_header">
-                      <Avatar alt={user.name} src={user.image} />
-                      <ListItemText>{`${user.name} ${user.surname}`}</ListItemText>
-                    </div>
-                    <div className="role_title">
-                      <ListItemText>
-                        <strong>{role.title}</strong>
-                      </ListItemText>
-                    </div>
-                    <div className="role_content">
-                      <ListItemText>{role.content}</ListItemText>
-                    </div>
-                  </ListItem>
+                <Button
+                  variant="none"
+                  sx={{ width: "-webkit-fill-available" }}
+                  onClick={(e) => handleRoleClick(e, i)}
+                >
+                  <RoleRender role={role} i={i} profile={profile} />
                 </Button>
               </div>
             );

@@ -15,6 +15,7 @@ const RenderList = ({ profiles, handleClick, handleCreateNewProfile }) => {
       {profiles?.map((profile, i) => {
         return (
           <ListItem
+            type="button"
             className="list_item_render"
             sx={{ cursor: "pointer" }}
             key={i + 1}

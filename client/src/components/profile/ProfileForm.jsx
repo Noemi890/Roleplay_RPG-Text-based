@@ -14,17 +14,13 @@ const Profile = () => {
   const [profile, setProfile] = useState({})
   const location = useLocation();
   const navigate = useNavigate();
-  const userId = location.state;
-  const header = location.state.id ? true : false;
+  const userId = location.state.userId;
+  const profiles = location.state.profiles
+  const header = location.state ? true : false;
   
   useEffect(() => {
-    client
-      .get(`/profile/${location.state.profile}`)
-      .then(res => {
-        setProfile(res.data.profile)
-      })
-    //eslint-disable-next-line
-    }, [])
+    setProfile(location.state.profile)
+    }, [location])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,11 +65,13 @@ const Profile = () => {
   const handleBackClick = () => {
     if(!location.state.game) {
       navigate('/main', {state: {
-        profile
+        profile,
+        profiles
       }})}
     else {
     navigate("/game", {state: {
-      profile
+      profile,
+      profiles
     }});
     }
   };
