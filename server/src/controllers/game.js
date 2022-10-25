@@ -18,7 +18,11 @@ export const getGame = async (req, res) => {
         id
       },
       include: {
-        roles: true
+        roles: {
+          include: {
+            events: true
+          }
+        }
       }
     })
 
