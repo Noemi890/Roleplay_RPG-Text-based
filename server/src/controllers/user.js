@@ -49,9 +49,8 @@ export const createUser = async (req, res) => {
 }
 
 export const getUserById = async (req, res) => {
-
+  
   const id = req.user.id
-  console.log(id)
 
   try {
     const user = await prisma.user.findUnique({

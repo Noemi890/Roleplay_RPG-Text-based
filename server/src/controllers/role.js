@@ -51,6 +51,9 @@ export const getAll = async (req, res) => {
     const roles = await prisma.role.findMany({
       where: {
         gameId
+      },
+      include: {
+        profile: true
       }
     })
 

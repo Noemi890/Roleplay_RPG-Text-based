@@ -61,3 +61,34 @@ export const createProfile = async (req, res) => {
     })
   }
 }
+
+export const getProfileById = async (req, res) => {
+  const id = Number(req.params.id)
+
+  if (!id) {
+    return res.status(401).json({
+      error: 'Missing params'
+    })
+  }
+
+  try {
+    const profile = await prisma.profile.findUnique({
+      where: {
+        id
+      }
+    })
+
+    if (!profile) {
+      return res.status(404).json({
+        error: 'Profile not found'
+      })
+    }
+
+    return res.status(200).json({
+      profile
+    })
+  }
+  catch (error) {
+
+  }
+}
