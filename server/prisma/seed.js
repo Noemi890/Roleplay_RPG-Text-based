@@ -24,7 +24,7 @@ async function seed() {
   const firstGame = await prisma.game.create({
     data: {
       authorId: firstProfile.id,
-      title: 'Dawn of Cats'
+      title: 'Dawn of Cats',
     }
   })
 
@@ -81,6 +81,12 @@ async function seed() {
               content: 'Always the same with you, you can\'t help youself. *I\'ve commented with a poor attitude*'
             }
           ]
+        },
+        profile: {
+          connect: [
+            {id: profile.id},
+            {id: otherProfile.id}
+          ]
         }
       },
       include: {
@@ -100,6 +106,12 @@ async function seed() {
             profileId: otherProfile.id,
             content: 'What? What have I done? I\'ve done nothing!'
           }
+        ]
+      },
+      profile: {
+        connect: [
+          {id: profile.id},
+          {id: otherProfile.id}
         ]
       }
     },
