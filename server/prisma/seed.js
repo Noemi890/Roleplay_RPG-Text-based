@@ -36,6 +36,8 @@ async function seed() {
     }
   })
 
+  newUser.profile[0].authorGameId = game.id
+
   const otherProfile = await prisma.profile.create({
     data: {
       userId: secondUser.id,
