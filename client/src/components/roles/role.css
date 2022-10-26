@@ -48,3 +48,8 @@ max-width: 800px;
   width: 30rem;
 }
 
+.answer_btn.MuiButtonBase-root{
+  place-self: center;
+  width: fit-content;
+}
+

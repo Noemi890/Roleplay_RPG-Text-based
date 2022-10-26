@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 
 const RoleRender = ({ role, profile = null }) => {
   const isRoleView = useLocation().pathname === '/role' ? true : false
-  console.log(isRoleView)
   const name = !profile ? role.profile?.name : profile.name;
   const surname = !profile ? role.profile?.surname : profile.surname;
   const image = !profile ? role.profile?.image : profile.image;

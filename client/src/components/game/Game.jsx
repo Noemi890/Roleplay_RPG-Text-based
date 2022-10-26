@@ -25,13 +25,15 @@ const Game = () => {
             <SideBar profile={profile} game={game} />
           </div>
           <div className="roles_wrap">
+            <div className="container_roles">
+            <h2 className="welcome_title">{`Welcome, ${profile.name} ${profile.surname}!`}</h2>
             <List className="list_ul_feed">
-              <h2 className="welcome_title">{`Welcome, ${profile.name} ${profile.surname}!`}</h2>
               <RolesMain
                 profile={profile}
                 game={game}
               />
             </List>
+            </div>
           </div>
         </div>
       </div>

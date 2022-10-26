@@ -82,7 +82,6 @@ const RolesMain = ({ profile, game }) => {
         }, "3000");
       })
       .catch((error) => {
-        console.log(error);
         setResponse({
           ...response,
           error: {

@@ -16,7 +16,10 @@
   margin-right: 3rem;
   overflow-x: hidden;
   overflow-y: scroll;
-  scroll-behavior: smooth;
+}
+
+.roles_wrap {
+  display: flex;
 }
 
 .welcome_title,
@@ -29,4 +32,8 @@
 
 .MuiList-root.list_ul_feed {
   width: fit-content;
+}
+
+.container_roles {
+  height: fit-content;
 }
