@@ -1,29 +1,17 @@
 import React from "react";
-import { useState, useEffect, useContext } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { List } from "@mui/material";
-import client from "../../client/client";
 import Header from "../header/HeaderMain";
 import SideBar from "../sideBar/SideBar";
 import RolesMain from "../roles/RolesMain";
 import "./game.css";
-import { loggedInUser } from "../../App";
+
 
 const Game = () => {
-  const [game, setGame] = useState({});
   const [roleCreated, setRoleCreated] = useState({});
   const profile = useLocation().state.profile;
-
-  useEffect(() => {
-    if(profile.gameId !== null) {
-    client.get(`/game/${profile.gameId}`).then((res) => {
-      console.log(res.data.game)
-      setGame(res.data.game);
-    });
-    }
-    //eslint-disable-next-line
-  }, [roleCreated, location]);
-
+  const game = useLocation().state.game
   return (
     <>
       <div className="game_wrap">

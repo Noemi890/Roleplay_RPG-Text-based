@@ -8,6 +8,7 @@ import {
   ClickAwayListener,
   Dialog,
   DialogContent,
+  Link,
 } from "@mui/material";
 import RenderList from "../profile/RenderList";
 import client from "../../client/client";
@@ -19,11 +20,10 @@ const Header = ({ profile, game = null }) => {
   const { onLogout } = useContext(loggedInUser);
   const [open, setOpen] = useState(false);
   const [profiles, setProfiles] = useState(location.state.profiles);
-  const [newProfile, setNewProfile] = useState({});
   const navigate = useNavigate();
-  
+
   useEffect(() => {
-    setProfiles(location.state.profiles)
+    setProfiles(location.state.profiles);
   }, [location]);
 
   const handleProfilesClick = () => {
@@ -44,15 +44,19 @@ const Header = ({ profile, game = null }) => {
 
   const handleSwitchClick = (e, i) => {
     if (Boolean(profiles[i].gameId)) {
-      navigate("/game", {
-        state: {
-          profile: profiles[i],
-          profiles,
-        },
+      client.get(`/game/${profiles[i].gameId}`).then((res) => {
+        const game = res.data.game;
+        navigate("/game", {
+          state: {
+            profile: profiles[i],
+            profiles,
+            game,
+          },
+        });
+        setTimeout(() => {
+          setOpen(false);
+        }, "500");
       });
-      setTimeout(() => {
-        setOpen(false);
-      }, "500");
     } else {
       navigate("/main", {
         state: {
@@ -66,11 +70,30 @@ const Header = ({ profile, game = null }) => {
     }
   };
 
+  const handleMainClick = () => {
+    console.log('logo', profile, profiles, game)
+    if (profile.gameId) {
+      navigate('/game', { state: {
+        profile,
+        profiles,
+        game
+      }})
+    }
+    else {
+      navigate('/main', { state: {
+        profile,
+        profiles
+      }})
+    }
+  }
+
   return (
     <header>
       <div className="header">
         <div className="title_logo_container">
-          <h3 className="main_title">&copy;RolePlay</h3>
+          <Link sx={{ cursor: 'pointer', textDecoration: 'none' }} onClick={handleMainClick}>
+            <h3 className="main_title">&copy;RolePlay</h3>
+          </Link>
           <Avatar
             sx={{ width: 56, height: 56 }}
             alt={profile.name}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Button,
   Dialog,
@@ -12,10 +12,9 @@ import { initialRoleContent } from "../utils/constants";
 import "./role.css";
 import client from "../../client/client";
 import RoleRender from "./RoleRender";
-import { useEffect } from "react";
 
 const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
-  const [roles, setRoles] = useState([]) 
+  // const [roles, setRoles] = useState([]) 
   const [createRole, setCreateRole] = useState(initialRoleContent);
   const [open, setOpen] = useState(false);
   const [response, setResponse] = useState({
@@ -29,17 +28,9 @@ const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
     },
   });
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (game.id) {
-    client
-      .get(`/roles/game/${game.id}`)
-      .then(res => {
-        setRoles(res.data.roles)
-      })
-    }
-      //eslint-disable-next-line
-  }, [roleCreated, game.id])
+  const roles = game.roles
+  const location = useLocation()
+  const profiles = location.state.profiles
 
   const handleCreateRoleClick = () => {
     console.log(roles)
@@ -105,8 +96,9 @@ const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
 
   const handleRoleClick = (e, i) => {
     navigate("/role", { state: { 
-      role: game.roles[i], 
+      role: roles[i], 
       profile,
+      profiles,
       game 
       } 
     });
@@ -157,8 +149,8 @@ const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
             Create Role
           </Button>
         </div>
-        {game.roles &&
-          game.roles.map((role, i) => {
+        {roles &&
+          roles.map((role, i) => {
             return (
               <div className="role_wrap" key={i}>
                 <Button

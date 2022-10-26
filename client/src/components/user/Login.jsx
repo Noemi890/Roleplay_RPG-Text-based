@@ -28,7 +28,6 @@ const LoginPage = () => {
       client
         .post("/login", {...loginDetails})
         .then((res) => {
-          console.log(res)
           localStorage.setItem(tokenKey, res.data.token);
           const user = res.data.user;
           onLogin(user);

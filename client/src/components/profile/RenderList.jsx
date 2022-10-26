@@ -18,7 +18,7 @@ const RenderList = ({ profiles, handleClick, handleCreateNewProfile }) => {
             type="button"
             className="list_item_render"
             sx={{ cursor: "pointer" }}
-            key={i + 1}
+            key={i}
             onClick={(e) => handleClick(e, i)}
           >
             <ListItemAvatar>

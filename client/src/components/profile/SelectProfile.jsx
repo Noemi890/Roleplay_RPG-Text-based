@@ -25,16 +25,21 @@ const SelectProfile = () => {
     navigate('/profile/create', { state: location.state.id })
   }
 
-  const handleClick = (e, index) => {
-    const profile = profiles[index];
-
+  const handleClick = (e, i) => {
+    const profile = profiles[i]
     if (profile.gameId) {
-      navigate("/game", {
-        state: {
-          profile,
-          profiles
-        },
-      });
+      client
+        .get(`/game/${profile.gameId}`)
+        .then (res => {
+          const game = res.data.game
+          navigate("/game", {
+            state: {
+              profile,
+              profiles,
+              game
+            },
+          });
+        })
     } else {
       navigate("/main", {
         state: {
