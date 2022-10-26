@@ -28,6 +28,7 @@ const RolesMain = ({ profile, game }) => {
       status: false,
     },
   });
+
   const navigate = useNavigate();
   const location = useLocation()
   const profiles = location.state.profiles
@@ -38,6 +39,7 @@ const RolesMain = ({ profile, game }) => {
       .then(res => {
         setRoles(res.data.roles)
       })
+    //eslint-disable-next-line
   }, [response])
 
   const handleCreateRoleClick = () => {
@@ -162,7 +164,7 @@ const RolesMain = ({ profile, game }) => {
                   sx={{ width: "-webkit-fill-available" }}
                   onClick={(e) => handleRoleClick(e, i)}
                 >
-                  <RoleRender role={role} profile={profile} />
+                  <RoleRender role={role} />
                 </Button>
               </div>
             );

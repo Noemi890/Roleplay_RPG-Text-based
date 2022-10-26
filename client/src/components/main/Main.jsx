@@ -24,7 +24,7 @@ const Main = () => {
             <h2 className="welcome_title">
               {`Welcome, ${profile.name} ${profile.surname}!`}
             </h2>
-            <h3>Start by creating your first Game or join an existing one!</h3>
+            <h3>Start by creating your first Game!</h3>
             <span>Check on your left! You're having everything you need!</span>
             </Card>
           </div>

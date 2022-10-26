@@ -54,6 +54,7 @@ export const getAll = async (req, res) => {
       },
       include: {
         profile: true,
+        author: true,
         events: {
           include: {
             profile: true
@@ -88,12 +89,13 @@ export const getRole = async (req, res) => {
     })
   }
 
-  try {
+  // try {
     const role = await prisma.role.findUnique({
       where: {
         id
       },
       include: {
+        author: true,
         events: {
           include: {
             profile: true
@@ -111,10 +113,10 @@ export const getRole = async (req, res) => {
     return res.json({
       role
     })
-  }
-  catch (e) {
-    return res.status(500).json({
-      error: 'Something went wrong'
-    })
-  }
+  // }
+  // catch (e) {
+  //   return res.status(500).json({
+  //     error: 'Something went wrong'
+  //   })
+  // }
 }

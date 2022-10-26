@@ -1,16 +1,14 @@
 import React from "react";
-import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { List } from "@mui/material";
 import Header from "../header/HeaderMain";
 import SideBar from "../sideBar/SideBar";
 import RolesMain from "../roles/RolesMain";
 import "./game.css";
-import { useEffect } from "react";
-import client from "../../client/client";
 
 
 const Game = () => {
+  console.log(useLocation().state)
   const profile = useLocation().state.profile;
   const game = useLocation().state.game
 

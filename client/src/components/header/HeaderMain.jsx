@@ -43,8 +43,10 @@ const Header = ({ profile, game = null }) => {
   };
 
   const handleSwitchClick = (e, i) => {
-    if (Boolean(profiles[i].gameId)) {
-      client.get(`/game/${profiles[i].gameId}`).then((res) => {
+    const profile = profiles[i]
+    const gameId = profile.gameId ? profile.gameId : profile.authorGameId
+    if (gameId) {
+      client.get(`/game/${gameId}`).then((res) => {
         const game = res.data.game;
         navigate("/game", {
           state: {
@@ -72,7 +74,7 @@ const Header = ({ profile, game = null }) => {
 
   const handleMainClick = () => {
     console.log('logo', profile, profiles, game)
-    if (profile.gameId) {
+    if (profile.gameId || profile.authorGameId) {
       navigate('/game', { state: {
         profile,
         profiles,

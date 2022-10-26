@@ -23,3 +23,8 @@ export const initialRoleContent = {
   title: '',
   content: ''
 }
+
+export const initialCreateGame = {
+  title: '',
+  story: ''
+}

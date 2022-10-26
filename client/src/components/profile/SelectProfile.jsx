@@ -27,9 +27,10 @@ const SelectProfile = () => {
 
   const handleClick = (e, i) => {
     const profile = profiles[i]
-    if (profile.gameId) {
+    const gameId = profile.gameId ? profile.gameId : profile.authorGameId
+    if (gameId) {
       client
-        .get(`/game/${profile.gameId}`)
+        .get(`/game/${gameId}`)
         .then (res => {
           const game = res.data.game
           navigate("/game", {

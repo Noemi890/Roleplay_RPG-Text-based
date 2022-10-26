@@ -46,3 +46,60 @@ export const getGame = async (req, res) => {
     })
   }
 }
+
+export const createGame = async (req, res) => {
+  const { profileId } = req.body
+  const { title, story } = req.body.newGame
+
+  if (!title || !story) {
+    return res.status(400).json({
+      error: 'Missing arguments'
+    })
+  }
+
+  const foundProfile = await prisma.profile.findUnique({
+    where: {
+      id: profileId
+    }
+  })
+
+  if (!foundProfile) {
+    return res.status(404).json({
+      error: 'Profile not found'
+    })
+  }
+
+  try {
+    const createdGame = await prisma.game.create({
+      data: {
+        authorId: foundProfile.id,
+        title,
+        story
+      },
+      include: {
+        author: true,
+        profiles: true,
+        roles: {
+          include: {
+            events: {
+              include: {
+                profiles: true
+              }
+            }
+          }
+        }
+      }
+    })
+
+    return res.status(201).json({
+      createdGame
+    })
+  }
+  catch (e) {
+    return res.status(500).json({
+      error: 'Unable to process request'
+    })
+  }
+
+
+}

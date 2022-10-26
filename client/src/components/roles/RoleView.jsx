@@ -25,11 +25,12 @@ const RoleView = () => {
   const game = location.state.game;
 
   useEffect(() => {
+    console.log("inside use effect");
     client.get(`/role/${roleId}`).then((res) => {
+      console.log("RESPONSE", res.data);
       setRole(res.data.role);
     });
-    //eslint-disable-next-line
-  }, [response]);
+  }, [response, roleId]);
 
   const handleAnswerClick = () => {
     setOpen(true);
@@ -50,12 +51,12 @@ const RoleView = () => {
     client
       .post(`/events`, { answer, roleId, profileId })
       .then((res) => {
-      setResponse(res.data)
-      setOpen(false)
+        setResponse(res.data);
+        setOpen(false);
       })
-      .catch(error => {
-        setResponse(error)
-      })
+      .catch((error) => {
+        setResponse(error);
+      });
   };
 
   return (
@@ -91,14 +92,15 @@ const RoleView = () => {
               <List className="list_ul_feed">
                 <h2 className="title_role_view">{`${role.title}`}</h2>
                 <div className="listItem_wrap">
-                  <div className="role_wrap">
-                    <RoleRender role={role} profile={profile} />
-                  </div>
-
+                  {role && (
+                    <div className="role_wrap">
+                      <RoleRender role={role} />
+                    </div>
+                  )}
                   {role.events?.map((event, i) => {
                     return (
                       <div className="role_wrap" key={i}>
-                        <RoleRender role={event} />
+                        <RoleRender event={event} />
                       </div>
                     );
                   })}

@@ -97,3 +97,34 @@ export const getProfileById = async (req, res) => {
 
   }
 }
+
+export const updateGameId = async (req, res) => {
+  const id = Number(req.params.id)
+  const { gameId } = req.body
+
+  if (!id || !gameId) {
+    return res.status(400).json({
+      error: 'Missing params'
+    })
+  }
+
+  try {
+    const updatedProfile = await prisma.profile.update({
+      where: {
+        id
+      },
+      data: {
+        gameId
+      }
+    })
+
+    return res.status(200).json({
+      updatedProfile
+    })
+  }
+  catch (e) {
+    return res.status(500).json({
+      error: 'Unable to process request'
+    })
+  }
+}
