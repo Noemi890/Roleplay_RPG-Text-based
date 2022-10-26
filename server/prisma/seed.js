@@ -60,44 +60,55 @@ async function seed() {
       gameId: firstGame.id,
       name: 'Sr. Cat',
       surname: 'Wilson',
-      image: 'https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80',
-      roles: {
-        create: [
-          {
-            gameId: firstGame.id,
-            title: 'It\'s always sunny in CatLand',
-            content: 'I woke up near my bowl of food as usual, with still one paw in it. Opening my eyes I found that damn dog staring at me.',
-            events: {
-              create: [
-                {
-                  profileId: otherProfile.id,
-                  content: 'Always the same with you, you can\'t help youself. *I\'ve commented with a poor attitude*'
-                }
-              ]
-            }
-          },
-          {
-            gameId: firstGame.id,
-            title: 'Another one bites my tail',
-            content: 'I was minding my own business, laid on the couch like always, when, all of a sudden, an incredible pain spiraled through my spine. That damn dog has done it again!',
-            events: {
-              create: [
-                {
-                  profileId: otherProfile.id,
-                  content: 'What? What have I done? I\'ve done nothing!'
-                }
-              ]
-            }
-          }
-        ]
-      }
+      image: 'https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80'
     },
     include: {
       roles: true
     }
   })
 
-  console.log(newUser, profile, firstProfile, firstGame)
+  const roleOne = await prisma.role.create({
+    data: 
+      { 
+        authorId: profile.id,
+        gameId: firstGame.id,
+        title: 'It\'s always sunny in CatLand',
+        content: 'I woke up near my bowl of food as usual, with still one paw in it. Opening my eyes I found that damn dog staring at me.',
+        events: {
+          create: [
+            {
+              profileId: otherProfile.id,
+              content: 'Always the same with you, you can\'t help youself. *I\'ve commented with a poor attitude*'
+            }
+          ]
+        }
+      },
+      include: {
+        events: true
+      }
+  })
+
+  const roleTwo = await prisma.role.create({
+    data: { 
+      authorId: profile.id,
+      gameId: firstGame.id,
+      title: 'Another one bites my tail',
+      content: 'I was minding my own business, laid on the couch like always, when, all of a sudden, an incredible pain spiraled through my spine. That damn dog has done it again!',
+      events: {
+        create: [
+          {
+            profileId: otherProfile.id,
+            content: 'What? What have I done? I\'ve done nothing!'
+          }
+        ]
+      }
+    },
+    include: {
+      events: true
+    }
+  })
+
+  console.log(newUser, profile, firstProfile, firstGame, roleOne, roleTwo)
 }
 
 seed().catch(async (error) => {
