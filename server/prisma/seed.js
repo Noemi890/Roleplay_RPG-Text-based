@@ -9,16 +9,31 @@ async function seed() {
   const newUser = await prisma.user.create({
     data: {
       email: 'myemail@email.com',
-      password: passHash,
-      profile: {
-        create: {
-          name: 'Cat',
-          surname: 'McCatson'
-        }
-      }
+      password: passHash
+    }
+  })
+
+  const firstProfile = await prisma.profile.create({
+    data: {
+      name: 'Cat',
+      surname: 'McCatson',
+      userId: newUser.id
+    }
+  })
+
+  const firstGame = await prisma.game.create({
+    data: {
+      authorId: firstProfile.id,
+      title: 'Dawn of Cats'
+    }
+  })
+
+  const updateFirstProfile = await prisma.profile.update({
+    where: {
+      id: firstProfile.id
     },
-    include: {
-      profile: true
+    data: {
+      authorGameId: firstGame.id
     }
   })
 
@@ -29,19 +44,10 @@ async function seed() {
     }
   })
 
-  const game = await prisma.game.create({
-    data: {
-      authorId: newUser.profile[0].id,
-      title: 'Dawn of Cats'
-    }
-  })
-
-  newUser.profile[0].authorGameId = game.id
-
   const otherProfile = await prisma.profile.create({
     data: {
       userId: secondUser.id,
-      gameId: game.id,
+      gameId: firstGame.id,
       name: 'Sr. Dog',
       surname: 'Bone',
       image: 'https://images.unsplash.com/photo-1599586477491-f86db60c0c1c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'
@@ -51,14 +57,14 @@ async function seed() {
   const profile = await prisma.profile.create({
     data: {
       userId: newUser.id,
-      gameId: game.id,
+      gameId: firstGame.id,
       name: 'Sr. Cat',
       surname: 'Wilson',
       image: 'https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80',
       roles: {
         create: [
           {
-            gameId: game.id,
+            gameId: firstGame.id,
             title: 'It\'s always sunny in CatLand',
             content: 'I woke up near my bowl of food as usual, with still one paw in it. Opening my eyes I found that damn dog staring at me.',
             events: {
@@ -71,7 +77,7 @@ async function seed() {
             }
           },
           {
-            gameId: game.id,
+            gameId: firstGame.id,
             title: 'Another one bites my tail',
             content: 'I was minding my own business, laid on the couch like always, when, all of a sudden, an incredible pain spiraled through my spine. That damn dog has done it again!',
             events: {
@@ -91,7 +97,7 @@ async function seed() {
     }
   })
 
-  console.log(newUser, profile, game)
+  console.log(newUser, profile, firstProfile, firstGame)
 }
 
 seed().catch(async (error) => {

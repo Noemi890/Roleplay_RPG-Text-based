@@ -27,6 +27,8 @@ model Profile {
   age          Int?
   race         String?
   biography    String?
+  authorRoleId Int?
+  authorRole   Role[]    @relation("RoleAuthor")
   gameId       Int?
   authorGameId Int?
   authorGame   Game?     @relation("Author")
@@ -48,13 +50,15 @@ model Game {
 }
 
 model Role {
-  id      Int       @id @default(autoincrement())
-  title   String
-  content String
-  gameId  Int
-  game    Game      @relation(fields: [gameId], references: [id])
-  events  Event[]
-  profile Profile[]
+  id       Int       @id @default(autoincrement())
+  title    String
+  content  String
+  authorId Int?       @unique
+  author   Profile?   @relation("RoleAuthor", fields: [authorId], references: [id])
+  gameId   Int
+  game     Game      @relation(fields: [gameId], references: [id])
+  events   Event[]
+  profile  Profile[]
 }
 
 model Event {
