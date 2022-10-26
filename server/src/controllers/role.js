@@ -53,10 +53,15 @@ export const getAll = async (req, res) => {
         gameId
       },
       include: {
-        profile: true
+        profile: true,
+        events: {
+          include: {
+            profile: true
+          }
+        }
       }
     })
-
+    
     if(!roles) {
       return res.status(401).json({
         error: 'Roles not found'

@@ -1,12 +1,14 @@
 import React from "react";
 import { ListItem, Avatar, ListItemText } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 const RoleRender = ({ role, profile = null }) => {
-  console.log(role)
-  const name = !profile ? role.profile?.name : profile.name
-  const surname = !profile ? role.profile?.surname : profile.surname
-  const image = !profile ? role.profile?.image : profile.image
-  
+  const isRoleView = useLocation().pathname === '/role' ? true : false
+  console.log(isRoleView)
+  const name = !profile ? role.profile?.name : profile.name;
+  const surname = !profile ? role.profile?.surname : profile.surname;
+  const image = !profile ? role.profile?.image : profile.image;
+
   return (
     <ListItem className="role_listItem">
       <div className="role_header">
@@ -14,9 +16,11 @@ const RoleRender = ({ role, profile = null }) => {
         <ListItemText>{`${name} ${surname}`}</ListItemText>
       </div>
       <div className="role_title">
-        <ListItemText>
-          <strong>{role.title}</strong>
-        </ListItemText>
+        {!isRoleView ? (
+          <ListItemText>
+            <strong>{role.title}</strong>
+          </ListItemText>
+        ) : <></>}
       </div>
       <div className="role_content">
         <ListItemText>{role.content}</ListItemText>
@@ -25,4 +29,4 @@ const RoleRender = ({ role, profile = null }) => {
   );
 };
 
-export default RoleRender
+export default RoleRender;

@@ -54,10 +54,10 @@ model Role {
 }
 
 model Event {
-  id      Int       @id @default(autoincrement())
-  content String
+  id        Int     @id @default(autoincrement())
+  content   String
   profileId Int
-  profile Profile @relation(fields: [profileId], references: [id])
-  roleId  Int
-  role  Role  @relation(fields: [roleId], references: [id])
+  profile   Profile @relation(fields: [profileId], references: [id])
+  roleId    Int
+  role      Role    @relation(fields: [roleId], references: [id])
 }

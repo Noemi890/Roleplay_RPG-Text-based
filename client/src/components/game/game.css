@@ -19,7 +19,8 @@
   scroll-behavior: smooth;
 }
 
-.welcome_title {
+.welcome_title,
+.title_role_view {
   font-family: 'Shadows Into Light', cursive;
   font-size: 3rem;
   text-align: center;

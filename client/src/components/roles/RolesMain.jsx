@@ -12,9 +12,10 @@ import { initialRoleContent } from "../utils/constants";
 import "./role.css";
 import client from "../../client/client";
 import RoleRender from "./RoleRender";
+import { useEffect } from "react";
 
-const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
-  // const [roles, setRoles] = useState([]) 
+const RolesMain = ({ profile, game }) => {
+  const [roles, setRoles] = useState([])
   const [createRole, setCreateRole] = useState(initialRoleContent);
   const [open, setOpen] = useState(false);
   const [response, setResponse] = useState({
@@ -28,12 +29,18 @@ const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
     },
   });
   const navigate = useNavigate();
-  const roles = game.roles
   const location = useLocation()
   const profiles = location.state.profiles
 
+  useEffect(() => {
+    client
+      .get(`/roles/game/${game.id}`)
+      .then(res => {
+        setRoles(res.data.roles)
+      })
+  }, [response])
+
   const handleCreateRoleClick = () => {
-    console.log(roles)
     setOpen(true);
   };
 
@@ -59,7 +66,6 @@ const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
     client
       .post("/role/create", createRole)
       .then((res) => {
-        console.log(res);
         setResponse({
           ...response,
           success: {
@@ -73,7 +79,6 @@ const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
             success: { status: false },
           });
           setOpen(false);
-          setRoleCreated(res.data.role);
         }, "3000");
       })
       .catch((error) => {
@@ -158,7 +163,7 @@ const RolesMain = ({ profile, game, setRoleCreated, roleCreated }) => {
                   sx={{ width: "-webkit-fill-available" }}
                   onClick={(e) => handleRoleClick(e, i)}
                 >
-                  <RoleRender role={role} i={i} profile={profile} />
+                  <RoleRender role={role} profile={profile} />
                 </Button>
               </div>
             );

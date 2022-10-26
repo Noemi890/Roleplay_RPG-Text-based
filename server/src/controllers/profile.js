@@ -75,6 +75,11 @@ export const getProfileById = async (req, res) => {
     const profile = await prisma.profile.findUnique({
       where: {
         id
+      },
+      include: {
+        game: true,
+        roles: true,
+        events: true
       }
     })
 

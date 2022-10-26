@@ -6,12 +6,14 @@ import Header from "../header/HeaderMain";
 import SideBar from "../sideBar/SideBar";
 import RolesMain from "../roles/RolesMain";
 import "./game.css";
+import { useEffect } from "react";
+import client from "../../client/client";
 
 
 const Game = () => {
-  const [roleCreated, setRoleCreated] = useState({});
   const profile = useLocation().state.profile;
   const game = useLocation().state.game
+
   return (
     <>
       <div className="game_wrap">
@@ -28,8 +30,6 @@ const Game = () => {
               <RolesMain
                 profile={profile}
                 game={game}
-                setRoleCreated={setRoleCreated}
-                roleCreated={roleCreated}
               />
             </List>
           </div>
