@@ -31,6 +31,7 @@ async function seed() {
 
   const game = await prisma.game.create({
     data: {
+      authorId: newUser.profile[0].id,
       title: 'Dawn of Cats'
     }
   })

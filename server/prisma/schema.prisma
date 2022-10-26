@@ -18,29 +18,29 @@ model User {
 }
 
 model Profile {
-  id        Int       @id @default(autoincrement())
-  userId    Int
-  user      User      @relation(fields: [userId], references: [id])
-  name      String
-  surname   String
-  image     String?
-  age       Int?
-  race      String?
-  biography String?
-  gamesId   Int?
-  gameId    Int?      
-  game      Game?     @relation("Author")
-  games     Game?     @relation(fields: [gamesId], references: [id])
-  roles     Role[]
-  events    Event[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  user         User      @relation(fields: [userId], references: [id])
+  name         String
+  surname      String
+  image        String?
+  age          Int?
+  race         String?
+  biography    String?
+  gameId       Int?
+  authorGameId Int?
+  authorGame   Game?     @relation("Author")
+  game         Game?     @relation(fields: [gameId], references: [id])
+  roles        Role[]
+  events       Event[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @updatedAt
 }
 
 model Game {
   id       Int       @id @default(autoincrement())
-  authorId Int?       @unique
-  author   Profile?   @relation("Author", fields: [authorId], references: [id])
+  authorId Int?      @unique
+  author   Profile?  @relation("Author", fields: [authorId], references: [id])
   profiles Profile[]
   roles    Role[]
   title    String
