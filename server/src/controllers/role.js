@@ -18,13 +18,10 @@ export const createRole = async (req, res) => {
         gameId,
         title,
         content,
-        profile: {
-          connect: {
-            id: profileId
-          }
+        authorId: profileId
         }
       }
-    })
+    )
 
     return res.status(201).json({ 
       message: "Role created successfully",
@@ -89,7 +86,7 @@ export const getRole = async (req, res) => {
     })
   }
 
-  // try {
+  try {
     const role = await prisma.role.findUnique({
       where: {
         id
@@ -113,10 +110,38 @@ export const getRole = async (req, res) => {
     return res.json({
       role
     })
-  // }
-  // catch (e) {
-  //   return res.status(500).json({
-  //     error: 'Something went wrong'
-  //   })
-  // }
+  }
+  catch (e) {
+    return res.status(500).json({
+      error: 'Something went wrong'
+    })
+  }
+}
+
+export const deleteRoleById = async (req, res) => {
+  const id = Number(req.params.id)
+
+  if (!id) {
+    return res.status(400).json({
+      error: 'Missing role information'
+    })
+  }
+
+  try {
+
+    const deletedRole = await prisma.role.delete({
+      where: {
+        id
+      }
+    })
+
+    res.status(200).json({
+      message: 'Role Deleted'
+    })
+  }
+  catch (e) {
+    return res.status(500).json({
+      error: 'Something went wrong'
+    })
+  }
 }

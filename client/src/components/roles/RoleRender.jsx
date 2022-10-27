@@ -19,7 +19,6 @@ const RoleRender = ({ role = null, event = null }) => {
     content = event?.content
   }
 
-  console.log('rolerender',role)
   return (
     <ListItem className="role_listItem">
       <div className="role_header">
@@ -27,7 +26,7 @@ const RoleRender = ({ role = null, event = null }) => {
         <ListItemText>{`${name} ${surname}`}</ListItemText>
       </div>
       <div className="role_title">
-        {!isRoleView ? (
+        {!isRoleView && role ? (
           <ListItemText>
             <strong>{role.title}</strong>
           </ListItemText>

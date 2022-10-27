@@ -26,11 +26,12 @@ const RegisterPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
       client
-        .post('/', registerDetails)
+        .post('/user', registerDetails)
         .then(res => {
           navigate('/profile/create', { state: res.data.createdUser.id })
         })
         .catch (error => {
+          console.log(error)
           setError(error.response.data?.error)
           setAlert(true)
             setTimeout(() => {

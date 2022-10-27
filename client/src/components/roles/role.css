@@ -46,10 +46,24 @@ max-width: 800px;
   place-items: center;
   gap: 4rem;
   width: 30rem;
+  margin-bottom: 1.5rem;
 }
 
 .answer_btn.MuiButtonBase-root{
   place-self: center;
   width: fit-content;
+}
+
+.delete_role_container {
+  display: flex;
+  justify-content: center;
+}
+
+.delete_dialog_container {
+  margin: 2rem;
+  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 

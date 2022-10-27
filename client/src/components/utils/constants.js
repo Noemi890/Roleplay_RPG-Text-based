@@ -28,3 +28,14 @@ export const initialCreateGame = {
   title: '',
   story: ''
 }
+
+export const initialResponse = {
+  success: {
+    message: "",
+    status: false,
+  },
+  error: {
+    message: "",
+    status: false,
+  }
+}

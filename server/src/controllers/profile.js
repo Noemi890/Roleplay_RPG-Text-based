@@ -3,8 +3,9 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient()
 
 export const createProfile = async (req, res) => {
+  console.log(req.body)
   const { name, surname, image, age, race, biography } = req.body.profile
-  const userId = req.body.user.id
+  const userId = req.body.user
   
 
   if (!name || !surname) {
@@ -34,7 +35,7 @@ export const createProfile = async (req, res) => {
     })
   }
   
-  try {
+  // try {
 
     const createdProfile = await prisma.profile.create({
       data: {
@@ -54,12 +55,12 @@ export const createProfile = async (req, res) => {
       message: "profile created successfully"
     })
 
-  }
-  catch (e) {
-    return res.status(500).json({
-      error: e
-    })
-  }
+  // }
+  // catch (e) {
+  //   return res.status(500).json({
+  //     error: e
+  //   })
+  // }
 }
 
 export const getProfileById = async (req, res) => {

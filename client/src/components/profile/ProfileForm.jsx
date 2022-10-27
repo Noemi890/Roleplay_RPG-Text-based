@@ -38,23 +38,28 @@ const Profile = () => {
         setData(res.data.message);
         setSuccess(true);
         const profile = res.data.createdProfile;
-        const profiles = res.data.user.profiles;
+        let profiles = res.data.user.profile;
         setTimeout(() => {
           setSuccess(false);
-          if (!header) {
+          if (profiles.length === 1) {
             navigate("/login");
           } else {
-            navigate("/main", {
-              state: {
-                profile,
-                profiles,
-              },
+            client
+              .get(`/user/${userId}/profiles`)
+              .then(res => {
+                profiles = res.data.profiles
+                navigate("/main", {
+                  state: {
+                    profile,
+                    profiles,
+                  }
+              })
             });
           }
-        }, "3000");
+        }, "2000");
       })
       .catch((e) => {
-        setData(e.data.error);
+        setData(e.response.data.error);
         setError(true);
         setTimeout(() => {
           setError(false);
