@@ -8,7 +8,7 @@ import {
   TextField,
   Alert,
   IconButton,
-  Typography,
+  Typography
 } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import { initialResponse, initialRoleContent } from "../utils/constants";
@@ -52,11 +52,10 @@ const RolesMain = ({ profile, game }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setCreateRole({
-      ...createRole,
-      [name]: value,
-    });
+      setCreateRole({
+        ...createRole,
+        [name]: value,
+      });
   };
 
   const handleSubmit = (e) => {
@@ -155,13 +154,13 @@ const RolesMain = ({ profile, game }) => {
           </div>
         </ClickAwayListener>
         <div className="alert_container">
-        {response.success.status && (
-          <Alert severity="success">{response.success.message}</Alert>
-        )}
-        {response.error.status && (
-          <Alert severity="error">{response.error.message}</Alert>
-        )}
-      </div>
+          {response.success.status && (
+            <Alert severity="success">{response.success.message}</Alert>
+          )}
+          {response.error.status && (
+            <Alert severity="error">{response.error.message}</Alert>
+          )}
+        </div>
       </Dialog>
       <Dialog open={open}>
         <ClickAwayListener onClickAway={() => handleClickAway()}>
@@ -189,13 +188,13 @@ const RolesMain = ({ profile, game }) => {
           </form>
         </ClickAwayListener>
         <div className="alert_container">
-        {response.success.status && (
-          <Alert severity="success">{response.success.message}</Alert>
-        )}
-        {response.error.status && (
-          <Alert severity="error">{response.error.message}</Alert>
-        )}
-      </div>
+          {response.success.status && (
+            <Alert severity="success">{response.success.message}</Alert>
+          )}
+          {response.error.status && (
+            <Alert severity="error">{response.error.message}</Alert>
+          )}
+        </div>
       </Dialog>
       <div className="listItem_wrap">
         <div className="create_role_wrap">

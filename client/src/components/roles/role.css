@@ -67,3 +67,10 @@ max-width: 800px;
   justify-content: center;
 }
 
+.partecipants_container {
+  display: flex;
+  place-self: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+

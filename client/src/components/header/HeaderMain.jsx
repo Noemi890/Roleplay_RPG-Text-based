@@ -19,7 +19,7 @@ const Header = ({ profile, game = null }) => {
   const location = useLocation();
   const { onLogout } = useContext(loggedInUser);
   const [open, setOpen] = useState(false);
-  const [profiles, setProfiles] = useState(location.state.profiles);
+  const [profiles, setProfiles] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {

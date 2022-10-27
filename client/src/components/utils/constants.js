@@ -21,7 +21,8 @@ export const initialRoleContent = {
   gameId: 0,
   profileId: 0,
   title: '',
-  content: ''
+  content: '',
+  profiles: []
 }
 
 export const initialCreateGame = {

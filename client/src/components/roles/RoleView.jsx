@@ -6,6 +6,9 @@ import {
   Dialog,
   TextField,
   ClickAwayListener,
+  Select,
+  MenuItem,
+  Avatar
 } from "@mui/material";
 import RoleRender from "./RoleRender";
 import SideBar from "../sideBar/SideBar";
@@ -18,6 +21,10 @@ const RoleView = () => {
   const [answer, setAnswer] = useState("");
   const [role, setRole] = useState({});
   const [response, setResponse] = useState({});
+  const [gamePartecipants, setGamePartecipants] = useState({});
+  const [selectPartecipants, setSelectPartecipants] = useState([]);
+  const [partecipants, setPartecipants] = useState([])
+
   const location = useLocation();
   const roleId = location.state.role.id;
   const profile = location.state.profile;
@@ -25,12 +32,22 @@ const RoleView = () => {
   const game = location.state.game;
 
   useEffect(() => {
-    console.log("inside use effect");
     client.get(`/role/${roleId}`).then((res) => {
-      console.log("RESPONSE", res.data);
       setRole(res.data.role);
     });
-  }, [response, roleId]);
+    setGamePartecipants(game.profiles);
+  }, [response, roleId, game.profiles]);
+
+  const isInRole = () => {
+    const found = role?.profile?.find(
+      (partecipant) => partecipant.id === profile.id
+    );
+
+    const isAuthor = role.authorId === profile.id
+
+    if (found || isAuthor) return true;
+    else return false;
+  };
 
   const handleAnswerClick = () => {
     setOpen(true);
@@ -58,6 +75,24 @@ const RoleView = () => {
         setResponse(error);
       });
   };
+
+  const handleSelectChange = (e) => {
+    
+    const { value } = e.target
+    setSelectPartecipants(value);
+    const char = gamePartecipants.find(char => char.name === value[value.length - 1])
+    setPartecipants([...partecipants, { id: char.id }])
+  };
+
+  const handleAddPartecipantsClick = () => {
+    client
+      .patch(`/role/${role.id}/partecipants`, {partecipants})
+      .then(res => {
+        setResponse(res.data)
+        setPartecipants([])
+        setSelectPartecipants([])
+      })
+  }
 
   return (
     <>
@@ -92,6 +127,38 @@ const RoleView = () => {
               <List className="list_ul_feed">
                 <h2 className="title_role_view">{`${role.title}`}</h2>
                 <div className="listItem_wrap">
+                  {isInRole() && (
+                    <div className="partecipants_container">
+                      <Select
+                        multiple
+                        value={selectPartecipants}
+                        variant="standard"
+                        labelId="select"
+                        name="profiles"
+                        label="Add Characters to Role"
+                        sx={{ width: '10rem'}}
+                        onChange={handleSelectChange}
+                        renderValue={(selected) => {
+                          if (selected.length === 0) {
+                            return <span>Add Partecipants</span>;
+                          }
+
+                          return selected.join(", ");
+                        }}
+                      >
+                        <MenuItem disabled value="">
+                          <em>Placeholder</em>
+                        </MenuItem>
+                        {gamePartecipants.map((char) => (
+                          <MenuItem key={char.id} value={char.name} sx={{ gap: '0.5rem'}}>
+                            <Avatar alt={char.name} src={char.image}/>
+                            {` ${char.name} ${char.surname}`}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      <Button onClick={handleAddPartecipantsClick} variant="contained" className="nav_btn">Add partecipants</Button>
+                    </div>
+                  )}
                   {role && (
                     <div className="role_wrap">
                       <RoleRender role={role} />
@@ -104,13 +171,15 @@ const RoleView = () => {
                       </div>
                     );
                   })}
-                  <Button
-                    onClick={handleAnswerClick}
-                    className="nav_btn answer_btn"
-                    variant="contained"
-                  >
-                    Answer
-                  </Button>
+                  {isInRole() && (
+                    <Button
+                      onClick={handleAnswerClick}
+                      className="nav_btn answer_btn"
+                      variant="contained"
+                    >
+                      Answer
+                    </Button>
+                  )}
                 </div>
               </List>
             </div>

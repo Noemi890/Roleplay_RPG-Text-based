@@ -18,6 +18,7 @@ export const getGame = async (req, res) => {
         id
       },
       include: {
+        profiles: true,
         roles: {
           include: {
             events: {

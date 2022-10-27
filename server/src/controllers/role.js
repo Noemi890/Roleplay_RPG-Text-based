@@ -93,6 +93,7 @@ export const getRole = async (req, res) => {
       },
       include: {
         author: true,
+        profile: true,
         events: {
           include: {
             profile: true
@@ -137,6 +138,45 @@ export const deleteRoleById = async (req, res) => {
 
     res.status(200).json({
       message: 'Role Deleted'
+    })
+  }
+  catch (e) {
+    return res.status(500).json({
+      error: 'Something went wrong'
+    })
+  }
+}
+
+export const addPartecipantsToRole = async (req, res) => {
+  const id = Number(req.params.id)
+  const partecipants = req.body.partecipants
+  console.log(req)
+
+  if (!id || !partecipants) {
+    return res.status(400).json({
+      error: 'Missing informations'
+    })
+  }
+
+  try {
+    const updatedRole = await prisma.role.update({
+      where: {
+        id
+      },
+      data: {
+        profile: {
+          connect: [
+             ...partecipants
+          ]
+        }
+      },
+      include: {
+        profile: true
+      }
+    })
+
+    return res.status(200).json({
+      updatedRole
     })
   }
   catch (e) {
