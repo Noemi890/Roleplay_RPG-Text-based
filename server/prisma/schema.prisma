@@ -68,5 +68,5 @@ model Event {
   profileId Int
   profile   Profile @relation(fields: [profileId], references: [id])
   roleId    Int
-  role      Role    @relation(fields: [roleId], references: [id])
+  role      Role    @relation(fields: [roleId], references: [id], onDelete: Cascade)
 }
