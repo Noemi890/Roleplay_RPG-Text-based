@@ -17,7 +17,7 @@ import client from "../../client/client";
 import RoleRender from "./RoleRender";
 import { useEffect } from "react";
 
-const RolesMain = ({ profile, game }) => {
+const RolesMain = ({ profile }) => {
   const [roles, setRoles] = useState([]);
   const [createRole, setCreateRole] = useState(initialRoleContent);
   const [open, setOpen] = useState(false);
@@ -28,9 +28,10 @@ const RolesMain = ({ profile, game }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const profiles = location.state.profiles;
-
+  const game = location.state.game
+  
   useEffect(() => {
-    client.get(`/roles/game/${game.id}`).then((res) => {
+    client.get(`/roles/game/${location.state?.game.id}`).then((res) => {
       setRoles(res.data.roles);
     });
     setCreateRole({
@@ -148,7 +149,7 @@ const RolesMain = ({ profile, game }) => {
         <ClickAwayListener onClickAway={() => handleDeleteClickAway()}>
           <div className="delete_dialog_container">
             <Typography>Are you sure you want to delete this role?</Typography>
-            <Button variant="contained" onClick={handleConfirmDelete}>
+            <Button className="nav_btn" variant="contained" onClick={handleConfirmDelete}>
               Confirm delete
             </Button>
           </div>

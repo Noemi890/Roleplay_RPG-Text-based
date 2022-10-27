@@ -101,6 +101,43 @@ export const createGame = async (req, res) => {
       error: 'Unable to process request'
     })
   }
+}
 
+export const updateGamePartecipants = async (req, res) => {
+  const profileId = req.body.partecipant.id
+  const id = Number(req.params.id)
 
+  if (!profileId || !id) {
+    return res.status(400).json({
+      error: 'Missing informations'
+    })
+  }
+
+  try {
+
+    const updatedGame = await prisma.game.update({
+      where: {
+        id
+      },
+      data: {
+        profiles: {
+          connect: [
+            {id: profileId}
+          ]
+        }
+      },
+      include: {
+        profiles: true
+      }
+    })
+
+    return res.status(200).json({
+      updatedGame
+    })
+  }
+  catch (e) {
+    return res.status(500).json({
+      error: 'Something went wrong'
+    })
+  }
 }

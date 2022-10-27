@@ -28,7 +28,7 @@ const RegisterPage = () => {
       client
         .post('/user', registerDetails)
         .then(res => {
-          navigate('/profile/create', { state: res.data.createdUser.id })
+          navigate('/profile/create', { state: {userId: res.data.createdUser.id} })
         })
         .catch (error => {
           console.log(error)

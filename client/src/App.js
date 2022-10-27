@@ -8,6 +8,7 @@ import Main from "./components/main/Main";
 import SelectProfile from "./components/profile/SelectProfile";
 import Game from "./components/game/Game";
 import RoleView from "./components/roles/RoleView";
+import AddProfilesFromPlatform from "./components/platform/AddProfilesFromPlatform";
 import client from "./client/client";
 
 export const loggedInUser = createContext();
@@ -56,6 +57,7 @@ const App = () => {
               <Route path={"/main"} element={<Main />} />
               <Route path={"/game"} element={<Game />} />
               <Route path={"/role"} element={<RoleView />} />
+              <Route path={"/profiles"} element={<AddProfilesFromPlatform />} />
             </>
           ) : null}
         </Routes>

@@ -1,0 +1,33 @@
+.container_profiles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: fit-content;
+}
+
+.list_item_profile_wrap {
+  max-width: 50rem;
+  border-radius: 5px;
+  margin-bottom: 2rem;
+  
+  background-color: white;
+}
+
+.list_item_profiles.MuiListItem-root {
+  min-width: none;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.invite_character_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.character_wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}

@@ -40,6 +40,14 @@ const SideBar = ({profile, game = null }) => {
       })
   };
 
+  const handleAddToGame = () => {
+    navigate('/profiles', {
+      state: {
+        ...location.state
+      }
+    })
+  }
+
   return (
     <>
       <Dialog open={open}>
@@ -73,7 +81,7 @@ const SideBar = ({profile, game = null }) => {
               </Button>
               {
                 game.authorId === profile.id ? 
-                <Button className="nav_btn" variant="contained">
+                <Button className="nav_btn" variant="contained" onClick={handleAddToGame}>
                   Add Profile to game
                 </Button> : <></>
               }

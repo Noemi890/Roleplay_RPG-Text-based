@@ -33,7 +33,7 @@ const Profile = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     client
-      .post("/profile/create", { user: userId, profile: userCharacter }, header)
+      .post("/profile/create", { user: {id: userId}, profile: userCharacter }, header)
       .then((res) => {
         setData(res.data.message);
         setSuccess(true);
@@ -41,7 +41,7 @@ const Profile = () => {
         let profiles = res.data.user.profile;
         setTimeout(() => {
           setSuccess(false);
-          if (profiles.length === 1) {
+          if (profiles.length <= 1) {
             navigate("/login");
           } else {
             client
