@@ -3,7 +3,7 @@ import { useState, createContext, useEffect } from "react";
 import RegisterPage from "./components/user/Register";
 import LoginPage from "./components/user/Login";
 import Profile from "./components/profile/ProfileForm";
-import "./app.css";
+import "./App.css";
 import Main from "./components/main/Main";
 import SelectProfile from "./components/profile/SelectProfile";
 import Game from "./components/game/Game";
