@@ -18,13 +18,19 @@ import { loggedInUser } from "../../App";
 const Header = ({ profile, game = null }) => {
   const location = useLocation();
   const { onLogout } = useContext(loggedInUser);
+  const { user } = useContext(loggedInUser)
   const [open, setOpen] = useState(false);
   const [profiles, setProfiles] = useState({});
   const navigate = useNavigate();
+  console.log(user)
 
   useEffect(() => {
-    setProfiles(location.state.profiles);
-  }, [location]);
+    client
+      .get(`/user/${user.id}`)
+      .then(res => {
+        setProfiles(res.data.user.profile)
+      })
+  }, [user]);
 
   const handleProfilesClick = () => {
     setOpen(true);
@@ -44,6 +50,7 @@ const Header = ({ profile, game = null }) => {
 
   const handleSwitchClick = (e, i) => {
     const profile = profiles[i]
+    console.log(profile)
     const gameId = profile.gameId ? profile.gameId : profile.authorGameId
     if (gameId) {
       client.get(`/game/${gameId}`).then((res) => {

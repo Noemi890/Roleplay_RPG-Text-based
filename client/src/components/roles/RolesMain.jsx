@@ -34,13 +34,8 @@ const RolesMain = ({ profile }) => {
     client.get(`/roles/game/${location.state?.game.id}`).then((res) => {
       setRoles(res.data.roles);
     });
-    setCreateRole({
-      ...initialRoleContent,
-      gameId: game.id,
-      profileId: profile.id,
-    });
     //eslint-disable-next-line
-  }, [response]);
+  }, [response, location]);
 
   const handleCreateRoleClick = () => {
     setOpen(true);
@@ -56,10 +51,13 @@ const RolesMain = ({ profile }) => {
       setCreateRole({
         ...createRole,
         [name]: value,
+        gameId: game.id,
+        profileId: profile.id
       });
   };
 
   const handleSubmit = (e) => {
+    console.log('when creating role', profile.id, createRole.profileId)
     e.preventDefault();
     client
       .post("/role/create", createRole)

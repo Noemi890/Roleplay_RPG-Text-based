@@ -8,7 +8,9 @@ import {
   ClickAwayListener,
   Select,
   MenuItem,
-  Avatar
+  Avatar,
+  InputLabel,
+  FormHelperText,
 } from "@mui/material";
 import RoleRender from "./RoleRender";
 import SideBar from "../sideBar/SideBar";
@@ -23,7 +25,7 @@ const RoleView = () => {
   const [response, setResponse] = useState({});
   const [gamePartecipants, setGamePartecipants] = useState({});
   const [selectPartecipants, setSelectPartecipants] = useState([]);
-  const [partecipants, setPartecipants] = useState([])
+  const [partecipants, setPartecipants] = useState([]);
 
   const location = useLocation();
   const roleId = location.state.role.id;
@@ -43,7 +45,7 @@ const RoleView = () => {
       (partecipant) => partecipant.id === profile.id
     );
 
-    const isAuthor = role.authorId === profile.id
+    const isAuthor = role.authorId === profile.id;
 
     if (found || isAuthor) return true;
     else return false;
@@ -77,22 +79,28 @@ const RoleView = () => {
   };
 
   const handleSelectChange = (e) => {
-    
-    const { value } = e.target
-    setSelectPartecipants(value);
-    const char = gamePartecipants.find(char => char.name === value[value.length - 1])
-    setPartecipants([...partecipants, { id: char.id }])
+    const { value } = e.target;
+    if (value.length === 0) {
+      setSelectPartecipants([])
+    }
+    else {
+      setSelectPartecipants(value);
+      const char = gamePartecipants.find(
+        (char) => char.name === value[value.length - 1]
+      );
+      setPartecipants([...partecipants, { id: char.id }]);
+    }
   };
 
   const handleAddPartecipantsClick = () => {
     client
-      .patch(`/role/${role.id}/partecipants`, {partecipants})
-      .then(res => {
-        setResponse(res.data)
-        setPartecipants([])
-        setSelectPartecipants([])
-      })
-  }
+      .patch(`/role/${role.id}/partecipants`, { partecipants })
+      .then((res) => {
+        setResponse(res.data);
+        setPartecipants([]);
+        setSelectPartecipants([]);
+      });
+  };
 
   return (
     <>
@@ -134,29 +142,36 @@ const RoleView = () => {
                         value={selectPartecipants}
                         variant="standard"
                         labelId="select"
+                        label="Select Characters"
                         name="profiles"
-                        label="Add Characters to Role"
-                        sx={{ width: '10rem'}}
+                        sx={{ width: "10rem" }}
                         onChange={handleSelectChange}
                         renderValue={(selected) => {
                           if (selected.length === 0) {
-                            return <span>Add Partecipants</span>;
+                            return <em>Add Partecipants</em>;
                           }
 
                           return selected.join(", ");
                         }}
                       >
-                        <MenuItem disabled value="">
-                          <em>Placeholder</em>
-                        </MenuItem>
                         {gamePartecipants.map((char) => (
-                          <MenuItem key={char.id} value={char.name} sx={{ gap: '0.5rem'}}>
-                            <Avatar alt={char.name} src={char.image}/>
+                          <MenuItem
+                            key={char.id}
+                            value={char.name}
+                            sx={{ gap: "0.5rem" }}
+                          >
+                            <Avatar alt={char.name} src={char.image} />
                             {` ${char.name} ${char.surname}`}
                           </MenuItem>
                         ))}
                       </Select>
-                      <Button onClick={handleAddPartecipantsClick} variant="contained" className="nav_btn">Add partecipants</Button>
+                      <Button
+                        onClick={handleAddPartecipantsClick}
+                        variant="contained"
+                        className="nav_btn"
+                      >
+                        Add partecipants
+                      </Button>
                     </div>
                   )}
                   {role && (

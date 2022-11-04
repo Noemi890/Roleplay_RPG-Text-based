@@ -31,3 +31,8 @@
   align-items: center;
   gap: 1rem;
 }
+
+.back_container {
+  display: flex;
+  justify-content: center;
+}

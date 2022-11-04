@@ -1,117 +1,107 @@
-import { PrismaClient } from '@prisma/client'
-import bcrypt from 'bcrypt'
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 async function seed() {
-  const passHash = await bcrypt.hash('mysecurepassword', 8)
+  const passHash = await bcrypt.hash("123", 8);
 
-  const newUser = await prisma.user.create({
-    data: {
-      email: 'myemail@email.com',
-      password: passHash
-    }
-  })
+  const users = [];
+  const profiles = [];
+  const games = [];
+  const roles = [];
+  const profileImages = [
+    "https://images.unsplash.com/photo-1474511320723-9a56873867b5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2944&q=80",
+    "https://images.unsplash.com/photo-1484406566174-9da000fda645?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=689&q=80",
+    "https://images.unsplash.com/photo-1555169062-013468b47731?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2712&q=80",
+    "https://images.unsplash.com/photo-1602491453631-e2a5ad90a131?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=627&q=80",
+    
+  ];
+
+  for (let i = 0; i < 2; i++) {
+    const user = await prisma.user.create({
+      data: {
+        email: `test${i}@test.com`,
+        password: passHash,
+      },
+      include: {
+        profile: true
+      }
+    });
+
+    users.push(user);
+  }
 
   const firstProfile = await prisma.profile.create({
     data: {
-      name: 'Cat',
-      surname: 'McCatson',
-      userId: newUser.id
+      userId: users[0].id,
+      name:'Lorem 1',
+      surname:'Ipsum',
+      image: profileImages[0]
     }
   })
 
-  const firstGame = await prisma.game.create({
+  const secondProfile = await prisma.profile.create({
+    data: {
+      userId: users[0].id,
+      name:'Lorem 2',
+      surname:'Ipsum',
+      image: profileImages[1]
+    }
+  })
+
+  const thirdProfile = await prisma.profile.create({
+    data: {
+      userId: users[1].id,
+      name:'Lorem 3',
+      surname:'Ipsum',
+      image: profileImages[2]
+    }
+  })
+
+  const fourthProfile = await prisma.profile.create({
+    data: {
+      userId: users[1].id,
+      name:'Lorem 4',
+      surname:'Ipsum',
+      image: profileImages[3]
+    }
+  })
+
+  profiles.push(firstProfile, secondProfile, thirdProfile, fourthProfile)
+
+  const game1 = await prisma.game.create({
     data: {
       authorId: firstProfile.id,
-      title: 'Dawn of Cats',
+      title: 'Once Upon a Cat'
     }
   })
 
-  const updateFirstProfile = await prisma.profile.update({
-    where: {
-      id: firstProfile.id
-    },
+  const game2 = await prisma.game.create({
     data: {
-      authorGameId: firstGame.id
+      authorId: thirdProfile.id,
+      title: 'Dawn of Dogs'
     }
   })
 
-  const secondUser = await prisma.user.create({
+  games.push(game1, game2)
+
+  const firstRole = await prisma.role.create({
     data: {
-      email: 'email@email.com',
-      password: passHash
-    }
-  })
-
-  const otherProfile = await prisma.profile.create({
-    data: {
-      userId: secondUser.id,
-      gameId: firstGame.id,
-      name: 'Sr. Dog',
-      surname: 'Bone',
-      image: 'https://images.unsplash.com/photo-1599586477491-f86db60c0c1c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'
-    }
-  })
-
-  const profile = await prisma.profile.create({
-    data: {
-      userId: newUser.id,
-      gameId: firstGame.id,
-      name: 'Sr. Cat',
-      surname: 'Wilson',
-      image: 'https://images.unsplash.com/photo-1611915387288-fd8d2f5f928b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1160&q=80'
-    },
-    include: {
-      roles: true
-    }
-  })
-
-  const roleOne = await prisma.role.create({
-    data: 
-      { 
-        authorId: profile.id,
-        gameId: firstGame.id,
-        title: 'It\'s always sunny in CatLand',
-        content: 'I woke up near my bowl of food as usual, with still one paw in it. Opening my eyes I found that damn dog staring at me.',
-        events: {
-          create: [
-            {
-              profileId: otherProfile.id,
-              content: 'Always the same with you, you can\'t help youself. *I\'ve commented with a poor attitude*'
-            }
-          ]
-        },
-        profile: {
-          connect: [
-            {id: profile.id},
-            {id: otherProfile.id}
-          ]
-        }
-      },
-      include: {
-        events: true
-      }
-  })
-
-  const roleTwo = await prisma.role.create({
-    data: { 
-      authorId: profile.id,
-      gameId: firstGame.id,
-      title: 'Another one bites my tail',
-      content: 'I was minding my own business, laid on the couch like always, when, all of a sudden, an incredible pain spiraled through my spine. That damn dog has done it again!',
+      authorId: firstProfile.id,
+      gameId: game1.id,
+      title: 'Damn Mice',
+      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi quis eleifend quam adipiscing vitae. Adipiscing diam donec adipiscing tristique.',
       events: {
         create: [
           {
-            profileId: otherProfile.id,
-            content: 'What? What have I done? I\'ve done nothing!'
+            profileId: fourthProfile.id,
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras pulvinar mattis nunc sed blandit libero volutpat sed.'
+          },
+          {
+            profileId: firstProfile.id,
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
           }
-        ]
-      },
-      profile: {
-        connect: [
-          {id: profile.id},
-          {id: otherProfile.id}
         ]
       }
     },
@@ -120,11 +110,81 @@ async function seed() {
     }
   })
 
-  console.log(newUser, profile, firstProfile, firstGame, roleOne, roleTwo)
+  const secondRole = await prisma.role.create({
+    data: {
+      authorId: secondProfile.id,
+      gameId: game2.id,
+      title: 'What a beautiful day to walk!',
+      content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nisi quis eleifend quam adipiscing vitae. Adipiscing diam donec adipiscing tristique.',
+      events: {
+        create: [
+          {
+            profileId: thirdProfile.id,
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras pulvinar mattis nunc sed blandit libero volutpat sed.'
+          },
+          {
+            profileId: secondProfile.id,
+            content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+          }
+        ]
+      }
+    },
+    include: {
+      events: true
+    }
+  })
+
+  roles.push(firstRole, secondRole)
+
+  const updatedAuthor0 = await prisma.profile.update({
+    where: {
+      id: firstProfile.id
+    },
+    data: {
+      authorGameId: game1.id
+    }
+  }) 
+  const index = profiles.indexOf(firstProfile)
+  profiles.splice(index, 1, updatedAuthor0)
+
+  const updatedAuthor2 = await prisma.profile.update({
+    where: {
+      id: thirdProfile.id
+    },
+    data: {
+      authorGameId: game2.id
+    }
+  }) 
+  const index2 = profiles.indexOf(thirdProfile)
+  profiles.splice(index2, 1, updatedAuthor2)
+
+  const updateGameId1 = await prisma.profile.update({
+    where: {
+      id: fourthProfile.id
+    },
+    data: {
+      gameId: game1.id
+    }
+  })
+  const index3 = profiles.indexOf(fourthProfile)
+  profiles.splice(index3, 1, updateGameId1)
+
+  const updateGameId3 = await prisma.profile.update({
+    where: {
+      id: secondProfile.id
+    },
+    data: {
+      gameId: game2.id
+    }
+  })
+  const index4 = profiles.indexOf(secondProfile)
+  profiles.splice(index4, 1, updateGameId3)
+
+  console.log(users, profiles, games, roles)
 }
 
 seed().catch(async (error) => {
-  console.error(error)
-  await prisma.$disconnect()
-  process.exit(1)
-})
+  console.error(error);
+  await prisma.$disconnect();
+  process.exit(1);
+});

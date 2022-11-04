@@ -53,7 +53,7 @@ export const createProfile = async (req, res) => {
     });
   } catch (e) {
     return res.status(500).json({
-      error: e,
+      error: 'Something went wrong'
     });
   }
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   Avatar,
   List,
@@ -23,14 +23,16 @@ import "./addprofiles.css";
 
 const AddProfilesFromPlatform = () => {
   const [platformProfiles, setPlatformProfiles] = useState({});
-  const [partecipant, setPartecipant] = useState([]);
+  const [partecipant, setPartecipant] = useState({});
   const [response, setResponse] = useState({});
   const [openDialog, setOpenDialog] = useState(false);
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState(false)
   const location = useLocation();
+  const navigate = useNavigate()
   const profile = location.state.profile;
   const game = location.state.game;
+  const profiles = location.state.profiles
 
   useEffect(() => {
     client.get(`/profiles`).then((res) => {
@@ -55,14 +57,39 @@ const AddProfilesFromPlatform = () => {
     client
       .patch(`/game/${game.id}`, { partecipant })
       .then(res => {
-        setResponse(res.data)
-        setSuccess(true)
+        client
+          .patch(`/profile/${partecipant.id}`, { gameId: game.id})
+          .then (res => {
+            setResponse(res.data)
+            setSuccess(true)
+            setTimeout(() => {
+              setSuccess(false)
+              setOpenDialog(!openDialog)
+            }, '2000')
+          })
+      })
+      .catch(e => {
+        setError(true)
         setTimeout(() => {
-          setSuccess(false)
+          setError(false)
           setOpenDialog(!openDialog)
         }, '2000')
       })
   };
+
+  const handleBackClick = () => {
+    client
+      .get(`/game/${game.id}`)
+      .then(res => {
+        navigate('/game', {
+          state: {
+            profile,
+            game: res.data.game,
+            profiles
+          }
+        })
+      })
+  }
 
   return (
     <>
@@ -94,7 +121,7 @@ const AddProfilesFromPlatform = () => {
       </Dialog>
       <div className="game_wrap">
         <div className="header_wrap">
-          <Header profile={profile} game={game} />
+          <Header profile={profile} game={game}/>
         </div>
         <div className="sideBar_main_wrap">
           <div>
@@ -120,6 +147,9 @@ const AddProfilesFromPlatform = () => {
                       </div>
                     );
                   })}
+                  <div className="back_container">
+                <Button variant="contained" className="nav_btn" onClick={handleBackClick}>Back</Button>
+                </div>
               </List>
             </div>
           </div>

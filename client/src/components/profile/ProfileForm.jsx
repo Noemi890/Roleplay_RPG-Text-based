@@ -41,7 +41,7 @@ const Profile = () => {
         let profiles = res.data.user.profile;
         setTimeout(() => {
           setSuccess(false);
-          if (profiles.length <= 1) {
+          if (profiles.length < 1) {
             navigate("/login");
           } else {
             client

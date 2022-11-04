@@ -150,7 +150,6 @@ export const deleteRoleById = async (req, res) => {
 export const addPartecipantsToRole = async (req, res) => {
   const id = Number(req.params.id)
   const partecipants = req.body.partecipants
-  console.log(req)
 
   if (!id || !partecipants) {
     return res.status(400).json({
