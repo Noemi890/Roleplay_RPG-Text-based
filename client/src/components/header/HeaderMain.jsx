@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./header.css";
 import {
   Avatar,
@@ -16,7 +16,7 @@ import { tokenKey } from "../../client/client";
 import { loggedInUser } from "../../App";
 
 const Header = ({ profile, game = null }) => {
-  const location = useLocation();
+  // const location = useLocation();
   const { onLogout } = useContext(loggedInUser);
   const { user } = useContext(loggedInUser)
   const [open, setOpen] = useState(false);
