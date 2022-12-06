@@ -32,7 +32,7 @@ const RegisterPage = () => {
         })
         .catch (error => {
           console.log(error)
-          setError(error.response.data?.error)
+          setError(error.response?.data?.error)
           setAlert(true)
             setTimeout(() => {
               setAlert(false)

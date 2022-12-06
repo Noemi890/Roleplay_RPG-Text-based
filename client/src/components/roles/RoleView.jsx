@@ -23,7 +23,7 @@ const RoleView = () => {
   const [answer, setAnswer] = useState("");
   const [role, setRole] = useState({});
   const [response, setResponse] = useState({});
-  const [gamePartecipants, setGamePartecipants] = useState({});
+  const [gamePartecipants, setGamePartecipants] = useState([]);
   const [selectPartecipants, setSelectPartecipants] = useState([]);
   const [partecipants, setPartecipants] = useState([]);
 
@@ -37,18 +37,34 @@ const RoleView = () => {
     client.get(`/role/${roleId}`).then((res) => {
       setRole(res.data.role);
     });
-    setGamePartecipants(game.profiles);
-  }, [response, roleId, game.profiles]);
+    setGamePartecipants([...game.profiles, game.author]);
+  }, [response, roleId, game]);
 
   const isInRole = () => {
-    const found = role?.profile?.find(
-      (partecipant) => partecipant.id === profile.id
+    const found = role?.events?.find(
+      (event) => event.profile.id === profile.id
     );
 
     const isAuthor = role.authorId === profile.id;
-
+    console.log(found, isAuthor);
     if (found || isAuthor) return true;
     else return false;
+  };
+
+  const getPartecipantsNotInRole = () => {
+    const partecipants = [];
+    for (let i = 0; i < gamePartecipants.length; i++) {
+      const found = role?.events.find(
+        (char) => char.id !== gamePartecipants[i].id
+      );
+      const isAuthor = gamePartecipants[i].id === role.authorId;
+      console.log("found", found, "is author", isAuthor);
+      if (!found && !isAuthor) {
+        partecipants.push(gamePartecipants[i]);
+      }
+    }
+    console.log("partecipants", partecipants);
+    return partecipants;
   };
 
   const handleAnswerClick = () => {
@@ -81,9 +97,8 @@ const RoleView = () => {
   const handleSelectChange = (e) => {
     const { value } = e.target;
     if (value.length === 0) {
-      setSelectPartecipants([])
-    }
-    else {
+      setSelectPartecipants([]);
+    } else {
       setSelectPartecipants(value);
       const char = gamePartecipants.find(
         (char) => char.name === value[value.length - 1]
@@ -147,21 +162,17 @@ const RoleView = () => {
                         sx={{ width: "10rem" }}
                         onChange={handleSelectChange}
                         renderValue={(selected) => {
-                          if (selected.length === 0) {
-                            return <em>Add Partecipants</em>;
-                          }
-
                           return selected.join(", ");
                         }}
                       >
-                        {gamePartecipants.map((char) => (
+                        {getPartecipantsNotInRole()?.map((char) => (
                           <MenuItem
-                            key={char.id}
-                            value={char.name}
+                            key={char?.id}
+                            value={char?.name}
                             sx={{ gap: "0.5rem" }}
                           >
-                            <Avatar alt={char.name} src={char.image} />
-                            {` ${char.name} ${char.surname}`}
+                            <Avatar alt={char?.name} src={char?.image} />
+                            {` ${char?.name} ${char?.surname}`}
                           </MenuItem>
                         ))}
                       </Select>

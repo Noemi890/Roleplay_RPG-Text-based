@@ -107,7 +107,7 @@ export const getRole = async (req, res) => {
         error: 'Role not found'
       })
     }
-
+    console.log(role)
     return res.json({
       role
     })

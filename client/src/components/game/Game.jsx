@@ -11,7 +11,6 @@ const Game = () => {
   const location = useLocation()
   const profile = location.state.profile;
   const game = location.state.game
-  console.log('in game',profile)
 
   return (
     <>
