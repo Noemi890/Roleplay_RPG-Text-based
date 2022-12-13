@@ -173,7 +173,7 @@ export const addPartecipantsToRole = async (req, res) => {
         profile: true
       }
     })
-
+    console.log('UPDATED ROLE',updatedRole)
     return res.status(200).json({
       updatedRole
     })

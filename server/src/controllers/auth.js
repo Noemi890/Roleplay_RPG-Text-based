@@ -5,6 +5,7 @@ const expiry = process.env.JWT_EXPIRY
 const secret = process.env.JWT_SECRET
 
 export const login = async (req, res) => {
+  console.log(req.body)
   const { email, password } = req.body
 
   if(!email || !password) {

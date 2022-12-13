@@ -3,6 +3,7 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 export const createProfile = async (req, res) => {
+  console.log(req.body)
   const { name, surname, image, age, race, biography } = req.body.profile;
   const userId = req.body.user.id;
 

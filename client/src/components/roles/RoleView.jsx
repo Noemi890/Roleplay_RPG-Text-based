@@ -32,7 +32,7 @@ const RoleView = () => {
   const profile = location.state.profile;
   const profileId = location.state.profile.id;
   const game = location.state.game;
-
+  
   useEffect(() => {
     client.get(`/role/${roleId}`).then((res) => {
       setRole(res.data.role);
@@ -41,10 +41,11 @@ const RoleView = () => {
   }, [response, roleId, game]);
 
   const isInRole = () => {
+    console.log('isinrole',role)
     const found = role?.events?.find(
       (event) => event.profile.id === profile.id
     );
-
+  
     const isAuthor = role.authorId === profile.id;
     console.log(found, isAuthor);
     if (found || isAuthor) return true;

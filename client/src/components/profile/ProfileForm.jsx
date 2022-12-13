@@ -14,7 +14,7 @@ const Profile = () => {
   const [profile, setProfile] = useState({})
   const location = useLocation();
   const navigate = useNavigate();
-  const userId = location.state.userId;
+  const userId = location.state.id;
   const profiles = location.state.profiles
   const header = location.state ? true : false;
   
