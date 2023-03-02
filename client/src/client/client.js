@@ -1,6 +1,6 @@
 import axios from 'axios'
-export const host = 'http://localhost:4001'
-export const tokenKey = 'token'
+export const host = process.env.REACT_APP_DATABASE_URL
+export const tokenKey = process.env.REACT_APP_TOKEN_KEY
 
 const client = {
   get: path => {
